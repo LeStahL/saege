@@ -16,6 +16,7 @@
  */
 
 #include "ColorProvider.hpp"
+
 #include <QRandomGenerator>
 
 ColorProvider::ColorProvider()
