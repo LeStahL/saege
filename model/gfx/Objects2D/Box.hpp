@@ -14,9 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
- 
-void Box(in vec2 x, in vec2 b, out float d)
+
+#ifndef BOX_H
+#define BOX_H
+
+#include "model/gfx/Object2D.hpp"
+
+class Box : public Object2D
 {
-    b = abs(x) - b;
-    d = length(max(b,c.yy)) + min(max(b.x,b.y),0.0);
-}
+public:
+    Box(QString name);
+    virtual ~Box() = default;
+    
+    QString toGLSL() override;
+    
+    void setCoordinate(Object2D *coord);
+    Object2D coordinate();
+    
+    void setWidth(Object2D *width);
+    Object2D *width();
+    
+    void setHeight(Object2D *height);
+    Object2D *height();
+    
+    bool canCompile() override;
+    Object::ObjectType type() override;
+    
+private:
+    Object2D *m_coordinate, *m_width, *m_height;
+};
+
+#endif

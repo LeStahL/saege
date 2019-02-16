@@ -30,8 +30,22 @@ public:
     QString name();
     
     //TODO: add toXML
-//     void toGLSL(); TODO
+    virtual void toGLSL() = 0;
     virtual int dimensions() = 0;
+    virtual bool canCompile() = 0;
+    
+    typedef enum
+    {
+        Number,
+        Vec2,
+        Vec3,
+        Vec4,
+        Mat2,
+        Mat3,
+        Mat4
+    } ObjectType;
+    
+    virtual ObjectType type() = 0;
     
 private:
     QString m_name;
