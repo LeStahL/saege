@@ -15,26 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "MainWindow.hpp"
-#include "ui_MainWindow.h"
-#include "ui/EditorPage/EditorPage2D/EditorPage2D.hpp"
+#ifndef READFILE_HPP
+#define READFILE_HPP
 
-MainWindow::MainWindow(QApplication* application)
-    : QMainWindow()
-    , m_application(application)
-    , m_ui(new Ui::MainWindow)
-{
-    m_ui->setupUi(this);
-}
+#include <QString>
 
-MainWindow::~MainWindow()
-{
-    delete m_ui;
-}
+QString ReadFile(QString filename);
 
-void MainWindow::FileNew2DLayer()
-{
-    QWidget *w = new EditorPage2D(m_ui->tabWidget, this);
-    m_ui->tabWidget->addTab(w, "Unnamed 2D Layer");
-    m_ui->tabWidget->setCurrentWidget(w);
-}
+#endif

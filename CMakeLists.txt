@@ -33,7 +33,9 @@ find_package(Qt5Gui CONFIG REQUIRED)
 set(SAEGE_SRC
     ui/MainWindow.ui
     ui/MainWindow.cpp
-#     ui/FilePage.cpp
+    ui/EditorPage/EditorPage2D/EditorPage2D.ui
+    ui/EditorPage/EditorPage2D/EditorPage2D.cpp
+    ui/EditorPage/EditorPage2D/EditorScene2D.cpp
     Saege.cpp
 )
 

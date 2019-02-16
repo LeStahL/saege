@@ -30,7 +30,10 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -64,6 +67,7 @@
       <string>New</string>
      </property>
      <addaction name="actionShader_Fragment"/>
+     <addaction name="action2D_Layer"/>
     </widget>
     <addaction name="menuNew"/>
     <addaction name="actionOpen_2"/>
@@ -224,7 +228,32 @@
     <string>Close</string>
    </property>
   </action>
+  <action name="action2D_Layer">
+   <property name="text">
+    <string>2D Layer</string>
+   </property>
+  </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>action2D_Layer</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>FileNew2DLayer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>FileNew2DLayer()</slot>
+ </slots>
 </ui>

@@ -20,20 +20,25 @@
 
 #include <QMainWindow>
 #include <QApplication>
+#include <QList>
+#include <QWidget>
 
 namespace Ui { class MainWindow; }
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+            
+public:
+    MainWindow(QApplication *application);
+    virtual ~MainWindow();
+
+private slots:
+    void FileNew2DLayer();
     
 private:
     Ui::MainWindow *m_ui;
     QApplication *m_application;
-    
-public:
-    MainWindow(QApplication *application);
-    virtual ~MainWindow();
 };
 
 #endif

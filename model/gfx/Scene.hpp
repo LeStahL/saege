@@ -15,26 +15,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "MainWindow.hpp"
-#include "ui_MainWindow.h"
-#include "ui/EditorPage/EditorPage2D/EditorPage2D.hpp"
+#ifndef SCENE_H
+#define SCENE_H
 
-MainWindow::MainWindow(QApplication* application)
-    : QMainWindow()
-    , m_application(application)
-    , m_ui(new Ui::MainWindow)
-{
-    m_ui->setupUi(this);
-}
+#include <QList>
+#include <QString>
 
-MainWindow::~MainWindow()
-{
-    delete m_ui;
-}
+#include "Layer.hpp"
 
-void MainWindow::FileNew2DLayer()
+class Scene
 {
-    QWidget *w = new EditorPage2D(m_ui->tabWidget, this);
-    m_ui->tabWidget->addTab(w, "Unnamed 2D Layer");
-    m_ui->tabWidget->setCurrentWidget(w);
-}
+public:
+    Scene(QString name, float t_begin, float t_end);
+    virtual ~Scene();
+    
+    void setName(QString name);
+    QString name();
+    
+    void setRange(float begin, float end);
+    void setBegin(float begin);
+    void setEnd(float end);
+    float begin();
+    float end();
+    
+private:
+    QString m_name;
+    QList<Layer> m_layers;
+    float m_t_begin, m_t_end;
+};
+
+#endif

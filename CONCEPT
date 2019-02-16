@@ -1,0 +1,15 @@
+- Scene = Sequenz aus Layers
+- Layer: 2D Layer oder 3D Layer
+
+Code für Szene:
+- Shader für jeden Layer.
+- Rendere alle Layers in Texturen
+- Shader der alle zusammensetzt gemäß der Sequenz
+- Shader fürs postprocessing (Per Textur oder am Ende wahlweise)
+
+2D Layer:
+- Render tree editor. Ein Baum mit add/subtract/exclude/... (Box, circle, text, ...)
+
+3D Layer:
+- Render tree editor. Ein Baum mit add/subtract/exclude/... sichtbaren/unsichtbaren nodes.
+

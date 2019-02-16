@@ -15,26 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "MainWindow.hpp"
-#include "ui_MainWindow.h"
-#include "ui/EditorPage/EditorPage2D/EditorPage2D.hpp"
+#ifndef LAYER_2D
+#define LAYER_2D
 
-MainWindow::MainWindow(QApplication* application)
-    : QMainWindow()
-    , m_application(application)
-    , m_ui(new Ui::MainWindow)
-{
-    m_ui->setupUi(this);
-}
+#include "model/gfx/Layer.hpp"
+#include "model/gfx/Object2D.hpp"
 
-MainWindow::~MainWindow()
+class Layer2D : public Layer
 {
-    delete m_ui;
-}
+public:
+    Layer2D(QString name) = default;
+    virtual ~Layer2D(QString name) = default;
+    
+    QString toXml();
+    void fromXml();
+    
+    QString toGLSL();
+    
+    void addObject(Object2D *object);
+    void removeObject(Object2D *object);
+    Object2D *findObject(QString name);
+    
+private:
+    QList<Object2D *> m_objects;
+};
 
-void MainWindow::FileNew2DLayer()
-{
-    QWidget *w = new EditorPage2D(m_ui->tabWidget, this);
-    m_ui->tabWidget->addTab(w, "Unnamed 2D Layer");
-    m_ui->tabWidget->setCurrentWidget(w);
-}
+#endif

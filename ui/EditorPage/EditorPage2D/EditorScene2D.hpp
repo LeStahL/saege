@@ -15,26 +15,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "MainWindow.hpp"
-#include "ui_MainWindow.h"
-#include "ui/EditorPage/EditorPage2D/EditorPage2D.hpp"
+#ifndef EDITORSCENE2D_H
+#define EDITORSCENE2D_H
 
-MainWindow::MainWindow(QApplication* application)
-    : QMainWindow()
-    , m_application(application)
-    , m_ui(new Ui::MainWindow)
-{
-    m_ui->setupUi(this);
-}
+#include <QGraphicsScene>
 
-MainWindow::~MainWindow()
-{
-    delete m_ui;
-}
+// #include "model/gfx/Layer2D.hpp"
 
-void MainWindow::FileNew2DLayer()
+class EditorScene2D : public QGraphicsScene
 {
-    QWidget *w = new EditorPage2D(m_ui->tabWidget, this);
-    m_ui->tabWidget->addTab(w, "Unnamed 2D Layer");
-    m_ui->tabWidget->setCurrentWidget(w);
-}
+public:
+    EditorScene2D(QGraphicsView *parent);
+    virtual ~EditorScene2D();
+    
+private:
+//     Layer2D *m_layer;
+};
+
+#endif
