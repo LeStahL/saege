@@ -15,31 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef LAYER_H
-#define LAYER_H
-
-#include <QList>
-#include <QString>
-
 #include "model/gfx/Object.hpp"
 
-class Layer
+Object::Object(QString name)
+    : m_name(name)
 {
-public:
-    Layer(QString name);
-    virtual ~Layer();
-    
-    void setName(QString name);
-    QString name();
-    
-    void addObject(Object *object);
-    void removeObject(Object *object);
-    Object *findObject(QString name);
-    virtual int dimensions() = 0;
-    
-private:
-    QString m_name;
-    QList<Object *> m_objects;
-};
+}
 
-#endif
+void Object::setName(QString name)
+{
+    m_name = name;
+}
+
+QString Object::name()
+{
+    return m_name;
+}

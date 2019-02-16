@@ -18,17 +18,20 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#include <QString>
+
 class Object 
 {
 public:
     Object(QString name);
-    virtual ~Object();
+    virtual ~Object() = default;
     
     void setName(QString name);
     QString name();
     
     //TODO: add toXML
-    void toGLSL();
+//     void toGLSL(); TODO
+    virtual int dimensions() = 0;
     
 private:
     QString m_name;

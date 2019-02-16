@@ -36,6 +36,10 @@ set(SAEGE_SRC
     ui/EditorPage/EditorPage2D/EditorPage2D.ui
     ui/EditorPage/EditorPage2D/EditorPage2D.cpp
     ui/EditorPage/EditorPage2D/EditorScene2D.cpp
+    model/gfx/Layer.cpp
+    model/gfx/Layer2D.cpp
+    model/gfx/Object.cpp
+    model/gfx/Object2D.cpp
     Saege.cpp
 )
 

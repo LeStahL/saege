@@ -15,31 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef LAYER_H
-#define LAYER_H
+#include "model/gfx/Layer2D.hpp"
 
-#include <QList>
-#include <QString>
-
-#include "model/gfx/Object.hpp"
-
-class Layer
+int Layer2D::dimensions()
 {
-public:
-    Layer(QString name);
-    virtual ~Layer();
-    
-    void setName(QString name);
-    QString name();
-    
-    void addObject(Object *object);
-    void removeObject(Object *object);
-    Object *findObject(QString name);
-    virtual int dimensions() = 0;
-    
-private:
-    QString m_name;
-    QList<Object *> m_objects;
-};
+    return 2;
+}
 
-#endif
+Layer2D::Layer2D(QString name)
+    : Layer(name)
+{
+}

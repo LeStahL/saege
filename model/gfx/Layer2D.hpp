@@ -19,25 +19,19 @@
 #define LAYER_2D
 
 #include "model/gfx/Layer.hpp"
-#include "model/gfx/Object2D.hpp"
 
 class Layer2D : public Layer
 {
 public:
-    Layer2D(QString name) = default;
-    virtual ~Layer2D(QString name) = default;
+    Layer2D(QString name);
+    virtual ~Layer2D() = default;
     
-    QString toXml();
-    void fromXml();
+    //TODO: add xml serialization and deserialization, also GLSL conversion
     
-    QString toGLSL();
-    
-    void addObject(Object2D *object);
-    void removeObject(Object2D *object);
-    Object2D *findObject(QString name);
+    int dimensions() override;
     
 private:
-    QList<Object2D *> m_objects;
+    
 };
 
 #endif

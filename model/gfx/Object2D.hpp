@@ -25,8 +25,10 @@
 class Object2D : public Object
 {
 public:
-    Object2D(QString name) = default;
+    Object2D(QString name);
     virtual ~Object2D() = default;
+    
+    int dimensions() override;
     
 private:
 };
