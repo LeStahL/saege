@@ -33,6 +33,7 @@ find_package(Qt5Gui CONFIG REQUIRED)
 set(SAEGE_SRC
     ui/MainWindow.ui
     ui/MainWindow.cpp
+#     ui/FilePage.cpp
     Saege.cpp
 )
 
