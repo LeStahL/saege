@@ -14,34 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+ 
+#ifndef ADD_OBJECT_COMMAND_H
+#define ADD_OBJECT_COMMAND_H
 
-#ifndef EDITORSCENE2D_H
-#define EDITORSCENE2D_H
+#include "ui/EditorPage/EditorPage2D/EditorScene2D.hpp"
 
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QGraphicsSceneContextMenuEvent>
-#include <QMenu>
-#include <QPointF>
-// #include "model/gfx/Layer2D.hpp"
+#include <QUndoCommand>
 
-class EditorScene2D : public QGraphicsScene
+class AddObjectCommand : public QUndoCommand
 {
-    Q_OBJECT
-    
 public:
-    EditorScene2D(QGraphicsView *parent);
-    virtual ~EditorScene2D();
-    
-private slots:
-    void addRectSlot();
-    
-private:
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *e);
-    
-    QMenu *m_context_menu;
-    QPointF m_context_point;
-//     Layer2D *m_layer;
+//     AddObjectCommand(EditorScene2D *scene, );
 };
 
 #endif
