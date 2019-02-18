@@ -14,18 +14,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
- 
-#ifndef ADD_OBJECT_COMMAND_H
-#define ADD_OBJECT_COMMAND_H
 
-#include "ui/EditorPage/EditorPage2D/EditorScene2D.hpp"
+#ifndef GRAPH_H
+#define GRAPH_H
 
-#include <QUndoCommand>
+class Node;
+class Edge;
 
-class AddObjectCommand : public QUndoCommand
+#include <QList>
+#include <QString>
+
+class Graph
 {
 public:
-//     AddObjectCommand(EditorScene2D *scene, );
+    Graph();
+    virtual ~Graph();
+    
+    bool addNode(Node *n);
+    bool removeNode(Node *n);
+    
+    bool connectNodes(Node *n1, QString attribute1, Node *n2, QString attribute2);
+    bool connectNodes(Node *n1, int attribute_index1, Node *n2, int attribute_index2);
+    
+    bool disconnectNodes(Node *n1, Node *n2);
+    
+    QString toString();
+    
+    //TODO: toXML()
+    //TODO: fromXML()
+    
+private:
+    QList<Node *> m_nodes;
+    QList<QList<int> > m_matrix;
 };
 
 #endif
