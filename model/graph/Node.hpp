@@ -42,10 +42,11 @@ public:
         Mat3,
         Mat4,
         In,
-        Out
-    } AttributeTyoe;
+        Out,
+        Error
+    } AttributeType;
 
-    int addAttribute(QString name, NodeType type);
+    int addAttribute(QString name, AttributeType type);
     int attributeIndex(QString name);
     NodeType attributeType(QString name);
     bool isIn(QString name);
@@ -57,13 +58,15 @@ public:
     Node *nodeConnectedToAttribute(QString name);
     QString AttributeConnectedToAttribute(QString name);
     
-    
+    QString name();
+    void setName(QString name);
     
 private:
     QString m_name;
-    QList<QString> m_identifiers_in, m_identifiers_out;
-    QList<NodeType> m_types_in, m_types_out;
+    QList<QString> m_identifiers;
+    QList<NodeType> m_types;
     Graph *m_graph;
+    int m_id;
 };
 
 #endif
