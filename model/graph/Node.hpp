@@ -46,6 +46,7 @@ public:
         Error = 512
     } AttributeType;
     QString attributeTypeString(QString name);
+    bool updateAttributeFromString(QString name, QString value);
 
     int addAttribute(QString name, AttributeType type);
     int attributeIndex(QString name);
@@ -54,6 +55,7 @@ public:
     bool isOut(QString name);
     QString attribute(int index);
     int attributeCount() const;
+    bool renameAttribute(QString old, QString name);
 
     //TODO: toXML()
     //TODO: fromXML()

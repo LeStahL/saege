@@ -30,7 +30,7 @@ int main(int argc, char **argv)
     Node *n = g.addNode("Graph Theory Rulez");
     n->addAttribute("input1", Node::AttributeType(Node::Float | Node::In));
     n->addAttribute("input2", Node::AttributeType(Node::Float | Node::In));
-    n->addAttribute("output1", Node::AttributeType(Node::Float | Node::Out));
+    n->addAttribute("output1", Node::AttributeType(Node::Mat2 | Node::Out));
     
     NodeModel m(n);
     tableView.setModel(&m);

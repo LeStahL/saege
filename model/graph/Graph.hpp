@@ -19,7 +19,6 @@
 #define GRAPH_H
 
 class Node;
-class Edge;
 
 #include <QList>
 #include <QString>

@@ -18,6 +18,8 @@
 #include "Node.hpp"
 #include "Graph.hpp"
 
+#include <QDebug>
+
 Node::Node(Graph* g, QString name)
     : m_graph(g)
     , m_name(name)
@@ -36,6 +38,16 @@ int Node::addAttribute(QString name, Node::AttributeType type)
     m_identifiers.push_back(name);
     m_types.push_back(type);
     return m_identifiers.size() - 1;
+}
+
+bool Node::renameAttribute(QString old, QString name)
+{
+    if(!m_identifiers.contains(old)) return false;
+    if(m_identifiers.contains(name)) return false;
+    if(name == "") return false;
+    int index = m_identifiers.indexOf(old);
+    m_identifiers[index] = name;
+    return true;
 }
 
 QString Node::name()
@@ -87,6 +99,41 @@ QString Node::attributeTypeString(QString name)
     return typestr;
 }
 
+bool Node::updateAttributeFromString(QString name, QString value)
+{
+    if(!m_identifiers.contains(name)) return false;
+    int index = m_identifiers.indexOf(name);
+    
+    QStringList data = value.split(' ', QString::SkipEmptyParts);
+    Node::AttributeType type;
+    
+    if(data.length() != 2) return false;
+    
+    if(data[0] == "in") type = Node::AttributeType::In;
+    else if(data[0] == "out") type = Node::AttributeType::Out;
+    else 
+    {
+        type = Node::AttributeType::Error;
+        return false;
+    }
+    
+    if(data[1] == "float") type = type | Node::AttributeType::Float;
+    else if(data[1] == "vec2") type = type | Node::AttributeType::Vec2;
+    else if(data[1] == "vec3") type = type | Node::AttributeType::Vec3;
+    else if(data[1] == "vec4") type = type | Node::AttributeType::Vec4;
+    else if(data[1] == "mat2") type = type | Node::AttributeType::Mat2;
+    else if(data[1] == "mat3") type = type | Node::AttributeType::Mat3;
+    else if(data[1] == "mat4") type = type | Node::AttributeType::Mat4;
+    else 
+    {
+        type = Node::AttributeType::Error;
+        return false;
+    }
+    
+    m_types[index] = type;
+
+    return true;
+}
 
 bool Node::isOut(QString name)
 {

@@ -67,3 +67,30 @@ QVariant NodeModel::headerData(int section, Qt::Orientation orientation, int rol
     return QVariant();
 }
 
+Qt::ItemFlags NodeModel::flags(const QModelIndex& index) const
+{
+    return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
+}
+
+bool NodeModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if(role == Qt::EditRole)
+    {
+        QString attribute_name = m_node->attribute(index.row());
+        if(index.column() == 0)
+        {
+            bool success = m_node->renameAttribute(attribute_name, value.toString());
+            if(success)
+                emit dataChanged(index, index);
+            return success;
+        }
+        else if(index.column() == 1)
+        {
+            bool success =  m_node->updateAttributeFromString(attribute_name, value.toString());
+            if(success)
+                emit dataChanged(index, index);
+            return success;
+        }
+    }
+    return false;
+}
