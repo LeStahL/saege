@@ -51,6 +51,7 @@ public:
     NodeType attributeType(QString name);
     bool isIn(QString name);
     bool isOut(QString name);
+    QString attribute(int index);
 
     //TODO: toXML()
     //TODO: fromXML()

@@ -101,3 +101,38 @@ int Graph::toString()
     }
     return ret;
 }
+
+Node * Graph::nodeConnectedToAttribute(Node* n, QString attribute)
+{
+    if(!m_nodes.contains(n)) return 0;
+    
+    int node_index = m_nodes.indexOf(n), attribute_index = n->attributeIndex(attribute);
+    if(attribute_index == -1) return 0;
+    
+    int to_node_index = 0;
+    for(to_node_index = 0; to_node_index < m_nodes.length(); ++to_node_index)
+    {
+        if(m_matrix[node_index][to_node_index] == attribute_index) break;
+    }
+    
+    return m_nodes[to_node_index];
+}
+
+QString Graph::attributeConnectedToAttribute(Node* n, QString attribute)
+{
+    if(!m_nodes.contains(n)) return 0;
+    
+    int node_index = m_nodes.indexOf(n), attribute_index = n->attributeIndex(attribute);
+    if(attribute_index == -1) return 0;
+    
+    int to_node_index = 0;
+    for(to_node_index = 0; to_node_index < m_nodes.length(); ++to_node_index)
+    {
+        if(m_matrix[node_index][to_node_index] == attribute_index) break;
+    }
+    
+    Node *to_node = m_nodes[to_node_index];
+    int to_attribute_index = m_matrix[to_node_index][node_index];
+    
+    return to_node->attribute(to_attribute_index);
+}

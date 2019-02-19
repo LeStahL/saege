@@ -43,6 +43,9 @@ public:
     //TODO: toXML()
     //TODO: fromXML()
     
+    Node *nodeConnectedToAttribute(Node *n, QString attribute);
+    QString attributeConnectedToAttribute(Node *n, QString attribute);
+    
 private:
     QList<Node *> m_nodes;
     QList<QList<int> > m_matrix;

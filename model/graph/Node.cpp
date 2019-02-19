@@ -71,3 +71,18 @@ bool Node::isOut(QString name)
     if(!m_identifiers.contains(name)) return false;
     return attributeType(name) & Node::AttributeType::Out;
 }
+
+QString Node::attribute(int index)
+{
+    return m_identifiers[index];
+}
+
+Node * Node::nodeConnectedToAttribute(QString name)
+{
+    return m_graph->nodeConnectedToAttribute(this, name);
+}
+
+QString Node::AttributeConnectedToAttribute(QString name)
+{
+    return m_graph->attributeConnectedToAttribute(this, name);
+}
