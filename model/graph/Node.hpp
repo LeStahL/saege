@@ -48,10 +48,11 @@ public:
 
     int addAttribute(QString name, AttributeType type);
     int attributeIndex(QString name);
-    NodeType attributeType(QString name);
+    AttributeType attributeType(QString name);
     bool isIn(QString name);
     bool isOut(QString name);
     QString attribute(int index);
+    int attributeCount() const;
 
     //TODO: toXML()
     //TODO: fromXML()
@@ -65,7 +66,7 @@ public:
 private:
     QString m_name;
     QList<QString> m_identifiers;
-    QList<NodeType> m_types;
+    QList<AttributeType> m_types;
     Graph *m_graph;
     int m_id;
 };

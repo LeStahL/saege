@@ -86,3 +86,8 @@ QString Node::AttributeConnectedToAttribute(QString name)
 {
     return m_graph->attributeConnectedToAttribute(this, name);
 }
+
+int Node::attributeCount() const
+{
+    return m_identifiers.length();
+}
