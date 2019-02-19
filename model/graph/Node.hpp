@@ -34,17 +34,18 @@ public:
         
     typedef enum 
     {
-        Float,
-        Vec2,
-        Vec3,
-        Vec4,
-        Mat2,
-        Mat3,
-        Mat4,
-        In,
-        Out,
-        Error
+        Float = 1,
+        Vec2 = 2,
+        Vec3 = 4,
+        Vec4 = 8,
+        Mat2 = 16,
+        Mat3 = 32,
+        Mat4 = 64,
+        In = 128,
+        Out = 256,
+        Error = 512
     } AttributeType;
+    QString attributeTypeString(QString name);
 
     int addAttribute(QString name, AttributeType type);
     int attributeIndex(QString name);
@@ -70,5 +71,10 @@ private:
     Graph *m_graph;
     int m_id;
 };
+
+inline Node::AttributeType operator|(Node::AttributeType a, Node::AttributeType b)
+{
+    return static_cast<Node::AttributeType>(static_cast<int>(a) | static_cast<int>(b));
+}
 
 #endif

@@ -31,7 +31,7 @@ Node::~Node()
 {
 }
 
-int Node::addAttribute(int name, Node::AttributeType type)
+int Node::addAttribute(QString name, Node::AttributeType type)
 {
     m_identifiers.push_back(name);
     m_types.push_back(type);
@@ -65,6 +65,28 @@ bool Node::isIn(QString name)
     if(!m_identifiers.contains(name)) return false;
     return attributeType(name) & Node::AttributeType::In;
 }
+
+QString Node::attributeTypeString(QString name)
+{
+    Node::AttributeType type = attributeType(name);
+    
+    QString typestr = "";
+    if(type & Node::Error) return "error";
+    
+    if(type & Node::In) typestr += "in ";
+    else if(type & Node::Out) typestr += "out ";
+    
+    if(type & Node::Float) typestr +=  "float";
+    else if(type & Node::Vec2)  typestr += "vec2";
+    else if(type & Node::Vec3)  typestr += "vec3";
+    else if(type & Node::Vec4)  typestr += "vec4";
+    else if(type & Node::Mat2)  typestr += "mat2";
+    else if(type & Node::Mat3)  typestr += "mat3";
+    else if(type & Node::Mat4)  typestr += "mat4";
+    
+    return typestr;
+}
+
 
 bool Node::isOut(QString name)
 {

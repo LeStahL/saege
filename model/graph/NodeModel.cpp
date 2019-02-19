@@ -45,10 +45,7 @@ QVariant NodeModel::data(const QModelIndex &index, int role) const
         if(index.column() == 0)
             return attribute_name;
         else if(index.column() == 1)
-        {
-            if(m_node->isIn(attribute_name)) return "In";
-            else if(m_node->isOut(attribute_name)) return "Out";
-        }
+            return m_node->attributeTypeString(attribute_name);
     }
     return QVariant();
 }
@@ -60,7 +57,7 @@ QVariant NodeModel::headerData(int section, Qt::Orientation orientation, int rol
         if(orientation == Qt::Horizontal)
         {
             if(section == 0) return "Attribute";
-            else if(section == 1) return "Direction";
+            else if(section == 1) return "Type";
         }
         else if(orientation == Qt::Vertical)
         {

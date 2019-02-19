@@ -16,6 +16,7 @@
  */
 
 #include "Graph.hpp"
+#include "Node.hpp"
 
 Graph::Graph()
 {
@@ -23,6 +24,17 @@ Graph::Graph()
 
 Graph::~Graph()
 {
+}
+
+Node * Graph::addNode(QString name)
+{
+    Node *n = new Node(this, name);
+    if(!addNode(n))
+    {
+        delete n;
+        return 0;
+    }
+    return n;
 }
 
 bool Graph::addNode(Node* n)
@@ -87,7 +99,7 @@ bool Graph::disconnectNodes(Node* n1, Node* n2)
     return true;
 }
 
-int Graph::toString()
+QString Graph::toString()
 {
     QString ret = "Graph with nodes:\n";
     for(int i=0; i<m_nodes.length(); ++i)

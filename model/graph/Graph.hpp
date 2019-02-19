@@ -30,6 +30,7 @@ public:
     Graph();
     virtual ~Graph();
     
+    Node *addNode(QString name);
     bool addNode(Node *n);
     bool removeNode(Node *n);
     

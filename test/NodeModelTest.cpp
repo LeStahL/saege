@@ -15,5 +15,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "model/gfx/Graph.hpp"
-#include "model/gfx/Node.hpp"
+#include "model/graph/Graph.hpp"
+#include "model/graph/Node.hpp"
+#include "model/graph/NodeModel.hpp"
+
+#include <QTableView>
+#include <QApplication>
+
+int main(int argc, char **argv)
+{
+    QApplication a(argc, argv);
+    QTableView tableView;
+    Graph g;
+    Node *n = g.addNode("Graph Theory Rulez");
+    n->addAttribute("input1", Node::AttributeType(Node::Float | Node::In));
+    n->addAttribute("input2", Node::AttributeType(Node::Float | Node::In));
+    n->addAttribute("output1", Node::AttributeType(Node::Float | Node::Out));
+    
+    NodeModel m(n);
+    tableView.setModel(&m);
+    tableView.show();
+    return a.exec();
+}

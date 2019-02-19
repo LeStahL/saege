@@ -45,3 +45,5 @@ set(SAEGE_SRC
 
 add_executable(saege-v1.57-binge ${SAEGE_SRC})
 target_link_libraries(saege-v1.57-binge Qt5::Widgets Qt5::Gui)
+
+add_subdirectory(test)
