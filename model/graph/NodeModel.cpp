@@ -94,3 +94,14 @@ bool NodeModel::setData(const QModelIndex &index, const QVariant &value, int rol
     }
     return false;
 }
+
+bool NodeModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    if(row != m_node->attributeCount()) return false;
+    if(count != 1) return false;
+    
+    beginInsertRows(parent, row, row+count);
+    bool success = m_node->addAttribute("Unnamed Attribute", Node::AttributeType::In);
+    endInsertRows();
+    return success;
+}
