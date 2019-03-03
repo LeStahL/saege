@@ -40,6 +40,7 @@ set(SAEGE_SRC
     model/gfx/Layer2D.cpp
     model/gfx/Object.cpp
     model/gfx/Object2D.cpp
+    model/Matrix.cpp
     Saege.cpp
 )
 

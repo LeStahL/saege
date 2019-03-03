@@ -1,0 +1,14 @@
+Track -> Piano roll editor (Matrix with notes)
+Sequence -> Sequence editor (Matrix with tracks)
+Module -> Module editor (Matrix with sequences)
+
+-> we need a matrix editor
+
+data in matrix?
+-> piano roll: note is on/off {0,1}
+-> sequence editor: instrument is playing/silent {0,1}
+-> module editor: sequence is active/inactive {0,1}
+
+need a matrix stack
+
+instrument -> instrument editor? have to discuss
