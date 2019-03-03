@@ -133,18 +133,11 @@ void MatrixView::update()
         {
             float stack = 0;
             QHeaderView *header = verticalHeader();
-            for(int i=0; i<((MatrixModel*)model())->rowCount(); ++i)
+            for(int i=((MatrixModel*)model())->rowCount(); i<m_remove_row_buttons.size(); ++i)
             {
-                if(i>=m_remove_row_buttons.size())
-                {
-                    QPushButton *button = new QPushButton("-", this);
-                    button->move(60,i*(m_column_width+3.)+62.);
-                    button->resize(40,20);
-                    button->show();
-                    m_remove_row_buttons.push_back(button);
-                    connect(button, SIGNAL(clicked()), this, SLOT(removeRowSlot()));
-                }
-                stack += header->sectionSize(i);
+                QPushButton *button = m_remove_row_buttons.last();
+                m_remove_row_buttons.pop_back();
+                delete button;
             }
         }
     }
@@ -172,7 +165,7 @@ void MatrixView::keyPressEvent(QKeyEvent* e)
         ((MatrixModel*)model())->redo();
     
 //     if(e->key() == Qt::Space)
-        
+    update();
 }
 
 void MatrixView::removeColumnSlot()
@@ -187,4 +180,8 @@ void MatrixView::removeRowSlot()
     QPushButton *button = (QPushButton*)QObject::sender();
     int index = m_remove_row_buttons.indexOf(button);
     model()->removeRows(index, 1);
+    QPushButton *blast = m_remove_row_buttons.last();
+    m_remove_row_buttons.pop_back();
+    delete blast;
+    update();
 }

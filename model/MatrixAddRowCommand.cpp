@@ -34,6 +34,7 @@ void MatrixAddRowCommand::redo()
     m_model->beginInsertRows(QModelIndex(), m_row_index, m_row_index);
     m_model->matrix()->addRow(QString("Track %1").arg(m_row_id));
     m_model->endInsertRows();
+    m_model->updateAll();
 }
 
 void MatrixAddRowCommand::undo()
@@ -41,6 +42,7 @@ void MatrixAddRowCommand::undo()
     m_model->beginRemoveRows(QModelIndex(), m_row_index, m_row_index);
     m_model->matrix()->removeRow(m_row_index);
     m_model->endRemoveRows();
+    m_model->updateAll();
 }
 
 MatrixAddRowCommand::~MatrixAddRowCommand()
