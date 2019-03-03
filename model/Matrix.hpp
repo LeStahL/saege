@@ -36,6 +36,7 @@ public:
     QString toString();
     
     bool addRow(QString name);
+    bool addRow(int index, QString name);
     bool removeRow(QString name);
     bool removeRow(int index);
     

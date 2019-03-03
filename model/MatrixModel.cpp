@@ -20,6 +20,7 @@
 #include "MatrixValueChangeCommand.hpp"
 #include "MatrixAddRowCommand.hpp"
 #include "MatrixAddColumnCommand.hpp"
+#include "MatrixRemoveRowCommand.hpp"
 
 #include <QFont>
 
@@ -89,7 +90,7 @@ QVariant MatrixModel::headerData(int section, Qt::Orientation orientation, int r
     if(role == Qt::DisplayRole)
     {
         if(orientation == Qt::Horizontal)
-            return QVariant(m_matrix->time(section).toString("mm:ss.zzz"));
+            return QVariant(section);
         else if(orientation == Qt::Vertical)
             return QVariant(m_matrix->rowName(section));
     }
@@ -115,6 +116,7 @@ bool MatrixModel::insertRows(int row, int count, const QModelIndex& parent)
 {
     if(row != m_matrix->rowCount()) return false;
     if(count != 1) return false;
+    
     m_undo_stack.push(new MatrixAddRowCommand(this));
     return true;
 }
@@ -123,16 +125,18 @@ bool MatrixModel::insertColumns(int column, int count, const QModelIndex& parent
 {
     if(column != m_matrix->columnCount()) return false;
     if(count != 1) return false;
+    
     m_undo_stack.push(new MatrixAddColumnCommand(this));
     return true;
 }
 
 bool MatrixModel::removeRows(int row, int count, const QModelIndex& parent)
 {
-    beginRemoveRows(parent, row, row+count);
-    bool success = m_matrix->removeRow(row);
-    endRemoveRows();
-    return success;
+    if(count != 1) return false;
+    if(row < 0 || row >= m_matrix->rowCount()) return false;
+    
+    m_undo_stack.push(new MatrixRemoveRowCommand(this, row));
+    return true;
 }
 
 bool MatrixModel::removeColumns(int column, int count, const QModelIndex& parent)

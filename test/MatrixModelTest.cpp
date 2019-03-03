@@ -26,7 +26,6 @@ int main(int argc, char **argv)
     QApplication a(argc, argv);
     MatrixView matrixView;
     Matrix m("Test matrix");
-    
     MatrixModel model(&m);
     matrixView.setModel(&model);
     matrixView.show();

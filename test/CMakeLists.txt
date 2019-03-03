@@ -35,6 +35,7 @@ set(MATRIX_MODEL_SRC
     ${PROJECT_SOURCE_DIR}/model/MatrixValueChangeCommand.cpp
     ${PROJECT_SOURCE_DIR}/model/MatrixAddRowCommand.cpp
     ${PROJECT_SOURCE_DIR}/model/MatrixAddColumnCommand.cpp
+    ${PROJECT_SOURCE_DIR}/model/MatrixRemoveRowCommand.cpp
     ${PROJECT_SOURCE_DIR}/tools/ColorProvider.cpp
 )
 

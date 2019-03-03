@@ -1,4 +1,4 @@
-/* SAEGE - ShAdEr Graph Editor v1.57 "BINGE" 
+/* SAEGE - ShAdEr Graph Editor v1.57 "BINGE"
  * Copyright (C) 2019  Alexander Kraus <nr4@z10.info>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,24 +20,25 @@
 
 #include <QUndoCommand>
 #include <QModelIndex>
+#include <QString>
 
 #include "MatrixModel.hpp"
 #include "Matrix.hpp"
 
-static int ROWCMD_ID = 0;
-
 class MatrixRemoveRowCommand : public QUndoCommand
 {
 public:
-    MatrixRemoveRowCommand(MatrixModel *model, const QModelIndex &index);
+    MatrixRemoveRowCommand(MatrixModel *model, int row);
     virtual ~MatrixRemoveRowCommand();
 
     void redo() override;
     void undo() override;
-    
+
 private:
     MatrixModel *m_model;
     int m_row_index;
+    QList<int> m_data;
+    QString m_name;
 };
 
 #endif

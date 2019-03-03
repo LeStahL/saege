@@ -79,6 +79,23 @@ bool Matrix::addRow(QString name)
     return true;
 }
 
+bool Matrix::addRow(int index, QString name)
+{
+    m_row_names.insert(index, name);
+    
+    QList<void *> lv;
+    QList<int> li;
+    for(int i=0; i<m_cols; ++i)
+    {
+        lv.push_back(0);
+        li.push_back(0);
+    }
+    m_data.insert(index, lv);
+    m_on.insert(index, li);
+    
+    return true;
+}
+
 bool Matrix::removeRow(QString name)
 {
     if(!m_row_names.contains(name)) return false;
@@ -104,7 +121,7 @@ bool Matrix::removeRow(int index)
 
 Matrix::Matrix(QString name)
     : m_cols(0)
-    , m_name("")
+    , m_name(name)
     , m_time_step(QTime(0,0,1,0))
 {
 }

@@ -105,6 +105,8 @@ void MatrixView::update()
     m_add_column_button->move(241+((MatrixModel*)model())->columnCount()*(m_column_width),0);
     m_add_row_button->move(161.,41.+((MatrixModel*)model())->rowCount()*(m_column_width));
     
+    m_name_label->setText(((MatrixModel*)model())->matrix()->name());
+    
     if(m_remove_row_buttons.size() != ((MatrixModel*)model())->rowCount())
     {
         if(m_remove_row_buttons.size() < ((MatrixModel*)model())->rowCount())
@@ -184,5 +186,5 @@ void MatrixView::removeRowSlot()
 {
     QPushButton *button = (QPushButton*)QObject::sender();
     int index = m_remove_row_buttons.indexOf(button);
-    model()->removeRows(index, 0);
+    model()->removeRows(index, 1);
 }
