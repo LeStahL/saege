@@ -50,10 +50,10 @@ bool Matrix::removeColumns(int ncolumns)
 {
     if(ncolumns < 0) return false;
     
-    m_cols -= qMax(ncolumns, m_cols);
+    m_cols -= ncolumns;
     for(int i=0; i<m_data.size(); ++i)
     {
-        for(int j=0; j<qMax(ncolumns, m_cols); ++j)
+        for(int j=0; j<ncolumns; ++j)
         {
             m_on[i].pop_back();
             m_data[i].pop_back();
@@ -84,6 +84,17 @@ bool Matrix::removeRow(QString name)
     if(!m_row_names.contains(name)) return false;
     
     int index = m_row_names.indexOf(name);
+    m_row_names.removeAt(index);
+    m_data.removeAt(index);
+    m_on.removeAt(index);
+    
+    return true;
+}
+
+bool Matrix::removeRow(int index)
+{
+    if(index >= m_row_names.size() || index < 0) return false;
+    
     m_row_names.removeAt(index);
     m_data.removeAt(index);
     m_on.removeAt(index);

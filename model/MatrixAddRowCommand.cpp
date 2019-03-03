@@ -15,38 +15,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef MATRIX_VIEW_H
-#define MATRIX_VIEW_H
+#include "MatrixAddRowCommand.hpp"
 
-#include <QTableView>
-#include <QObject>
-#include <QKeyEvent>
-#include <QPushButton>
+#include <QModelIndex>
 
-class MatrixView : public QTableView
+MatrixAddRowCommand::MatrixAddRowCommand(MatrixModel *model)
+    : QUndoCommand()
+    , m_model(model)
 {
-    Q_OBJECT
-    
-public:
-    MatrixView(QWidget *parent = 0);
-    virtual ~MatrixView();
-    void setColumnWidth(int width);
-    void update();
-    
-private slots:
-    void addColumnSlot();
-    void addRowSlot();
-    void changeSchemeSlot();
-    void removeColumnSlot();
-    void removeRowSlot();
-    
-    void keyPressEvent(QKeyEvent *e);
-    
-private:
-    QPushButton *m_add_row_button, *m_add_column_button, *m_change_scheme_button;
-    QList<QPushButton *> m_remove_row_buttons;
-    QPushButton * m_remove_column_button;
-    int m_column_width;
-};
+    setText("Add row");
+    ++ROWCMD_ID;
+    m_row_index = m_model->matrix()->rowCount();
+}
 
-#endif
+void MatrixAddRowCommand::redo()
+{
+    m_model->beginInsertRows(QModelIndex(), m_row_index, m_row_index);
+    m_model->matrix()->addRow(QString("Track %1").arg(ROWCMD_ID));
+    m_model->endInsertRows();
+}
+
+void MatrixAddRowCommand::undo()
+{
+    m_model->beginRemoveRows(QModelIndex(), m_row_index, m_row_index);
+    m_model->matrix()->removeRow(m_row_index);
+    m_model->endRemoveRows();
+}
+
+MatrixAddRowCommand::~MatrixAddRowCommand()
+{
+}

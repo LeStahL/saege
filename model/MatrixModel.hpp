@@ -26,6 +26,7 @@
 #include <QVariant>
 #include <QColor>
 #include <QList>
+#include <QUndoStack>
 
 class MatrixModel : public QAbstractTableModel
 {
@@ -47,14 +48,29 @@ public:
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
     bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
     
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+    bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
+    
     void updateColorScheme();
     QList<QColor> colorScheme();
     
     void updateAll();
+    void update(int row, int column);
+    
+    Matrix *matrix();
+    
+    void beginInsertRows(const QModelIndex &m, int row, int col);
+    void beginRemoveRows(const QModelIndex &m, int row, int col);
+    void endInsertRows();
+    void endRemoveRows();
+    
+    void undo();
+    void redo();
     
 private:
     Matrix *m_matrix;
     QList<QColor> m_color_scheme, m_foreground_scheme;
+    QUndoStack m_undo_stack;
 };
 
 #endif

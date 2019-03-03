@@ -17,6 +17,8 @@
 
 #include "MatrixModel.hpp"
 #include "ColorProvider.hpp"
+#include "MatrixValueChangeCommand.hpp"
+#include "MatrixAddRowCommand.hpp"
 
 #include <QFont>
 
@@ -75,7 +77,7 @@ QVariant MatrixModel::data(const QModelIndex& index, int role) const
     {
         QFont font;
         font.setBold(true);
-        font.setPointSize(18.);
+        font.setPointSize(14.);
         return QVariant(font);
     }
     return QVariant();
@@ -102,20 +104,18 @@ bool MatrixModel::setData(const QModelIndex &index, const QVariant &value, int r
 {
     if(role == Qt::EditRole)
     {
-        bool success = m_matrix->setValue(index.row(), index.column(), value.toInt());
-        if(success)
-            emit dataChanged(index,index);
-        return success;
+        m_undo_stack.push(new MatrixValueChangeCommand(index, value, this));
+        return true;
     }
     return false;
 }
 
 bool MatrixModel::insertRows(int row, int count, const QModelIndex& parent)
 {
-    beginInsertRows(parent, row, row+count);
-    bool success = m_matrix->addRow("unnamed");
-    endInsertRows();
-    return success;
+    if(row != m_matrix->rowCount()) return false;
+    if(count != 1) return false;
+    m_undo_stack.push(new MatrixAddRowCommand(this));
+    return true;
 }
 
 bool MatrixModel::insertColumns(int column, int count, const QModelIndex& parent)
@@ -123,6 +123,22 @@ bool MatrixModel::insertColumns(int column, int count, const QModelIndex& parent
     beginInsertColumns(parent, column, column+count);
     bool success = m_matrix->addColumns(count);
     endInsertColumns();
+    return success;
+}
+
+bool MatrixModel::removeRows(int row, int count, const QModelIndex& parent)
+{
+    beginRemoveRows(parent, row, row+count);
+    bool success = m_matrix->removeRow(row);
+    endRemoveRows();
+    return success;
+}
+
+bool MatrixModel::removeColumns(int column, int count, const QModelIndex& parent)
+{
+    beginRemoveColumns(parent, column-count, column);
+    bool success = m_matrix->removeColumns(count);
+    endRemoveColumns();
     return success;
 }
 
@@ -141,4 +157,44 @@ QList<QColor> MatrixModel::colorScheme()
 void MatrixModel::updateAll()
 {
     emit dataChanged(index(0,0), index(rowCount(), columnCount()));
+}
+
+void MatrixModel::update(int row, int column)
+{
+    emit dataChanged(index(row,column), index(row, column));
+}
+
+Matrix *MatrixModel::matrix()
+{
+    return m_matrix;
+}
+
+void MatrixModel::beginInsertRows(const QModelIndex& m, int row, int col)
+{
+    QAbstractTableModel::beginInsertRows(m, row, col);
+}
+
+void MatrixModel::beginRemoveRows(const QModelIndex& m, int row, int col)
+{
+    QAbstractTableModel::beginRemoveRows(m, row, col);
+}
+
+void MatrixModel::endInsertRows()
+{
+    QAbstractTableModel::endInsertRows();
+}
+
+void MatrixModel::endRemoveRows()
+{
+    QAbstractTableModel::endRemoveRows();
+}
+
+void MatrixModel::undo()
+{
+    if(m_undo_stack.canUndo()) m_undo_stack.undo();
+}
+
+void MatrixModel::redo()
+{
+    if(m_undo_stack.canRedo()) m_undo_stack.redo();
 }

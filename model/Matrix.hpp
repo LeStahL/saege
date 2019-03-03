@@ -37,6 +37,7 @@ public:
     
     bool addRow(QString name);
     bool removeRow(QString name);
+    bool removeRow(int index);
     
     bool addColumns(int ncolumns);
     bool removeColumns(int ncolumns);

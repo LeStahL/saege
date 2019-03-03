@@ -15,38 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef MATRIX_VIEW_H
-#define MATRIX_VIEW_H
+#ifndef MATRIX_VALUE_CHANGE_COMMAND_H
+#define MATRIX_VALUE_CHANGE_COMMAND_H
 
-#include <QTableView>
-#include <QObject>
-#include <QKeyEvent>
-#include <QPushButton>
+#include <QUndoCommand>
+#include <QModelIndex>
+#include <QVariant>
 
-class MatrixView : public QTableView
+#include "MatrixModel.hpp"
+#include "Matrix.hpp"
+
+class MatrixValueChangeCommand : public QUndoCommand
 {
-    Q_OBJECT
-    
 public:
-    MatrixView(QWidget *parent = 0);
-    virtual ~MatrixView();
-    void setColumnWidth(int width);
-    void update();
+    MatrixValueChangeCommand(const QModelIndex &index, const QVariant &value, MatrixModel *model);
+    virtual ~MatrixValueChangeCommand();
     
-private slots:
-    void addColumnSlot();
-    void addRowSlot();
-    void changeSchemeSlot();
-    void removeColumnSlot();
-    void removeRowSlot();
-    
-    void keyPressEvent(QKeyEvent *e);
+    void redo() override;
+    void undo() override;
     
 private:
-    QPushButton *m_add_row_button, *m_add_column_button, *m_change_scheme_button;
-    QList<QPushButton *> m_remove_row_buttons;
-    QPushButton * m_remove_column_button;
-    int m_column_width;
+    MatrixModel *m_model;
+    QVariant m_new, m_old;
+    int m_row, m_col;
 };
 
 #endif
