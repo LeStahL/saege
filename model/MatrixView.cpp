@@ -16,6 +16,7 @@
  */
 
 #include "MatrixView.hpp"
+#include "MatrixModel.hpp"
 #include "ColorProvider.hpp"
 
 #include <QDebug>
@@ -26,11 +27,8 @@ MatrixView::MatrixView(QWidget *parent)
     , m_add_row_button(new QPushButton("+r", this))
     , m_add_column_button(new QPushButton("+c", this))
     , m_change_scheme_button(new QPushButton("S", this))
-    , m_row_color_scheme(ColorProvider().provide())
 {
     verticalHeader()->setMinimumSize(QSize(60,20));
-    setAlternatingRowColors(true);
-    changeSchemeSlot();
     
     m_add_column_button->move(20.,0);
     m_add_column_button->resize(20.,20.);
@@ -67,20 +65,6 @@ void MatrixView::addColumnSlot()
 
 void MatrixView::changeSchemeSlot()
 {
-    m_row_color_scheme = ColorProvider().provide();
-    
-    QString header_style = "background-color:" + m_row_color_scheme[0].name() 
-                         + ";color:" + m_row_color_scheme[1].name() 
-                         + ";selection-background-color:" + m_row_color_scheme[0].name()
-                         + ";selection-color:" + m_row_color_scheme[2].name()
-                         + ";";
-    horizontalHeader()->setStyleSheet(header_style);
-    verticalHeader()->setStyleSheet(header_style);
-    setStyleSheet("background-color:" + m_row_color_scheme[2].name() 
-                + ";alternate-background-color:" + m_row_color_scheme[1].name() 
-                + ";color:" + m_row_color_scheme[0].name() 
-                + ";selection-background-color:" + m_row_color_scheme[0].name()
-                + ";selection-color:" + m_row_color_scheme[2].name()
-                + ";");
-    
+    ((MatrixModel*)model())->updateColorScheme();
+    update();
 }

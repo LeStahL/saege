@@ -24,6 +24,8 @@
 #include <QObject>
 #include <QModelIndex>
 #include <QVariant>
+#include <QColor>
+#include <QList>
 
 class MatrixModel : public QAbstractTableModel
 {
@@ -45,8 +47,11 @@ public:
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
     bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
     
+    void updateColorScheme();
+    
 private:
     Matrix *m_matrix;
+    QList<QColor> m_color_scheme;
 };
 
 #endif

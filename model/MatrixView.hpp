@@ -38,7 +38,6 @@ private slots:
     
 private:
     QPushButton *m_add_row_button, *m_add_column_button, *m_change_scheme_button;
-    QList<QColor> m_row_color_scheme;
 };
 
 #endif

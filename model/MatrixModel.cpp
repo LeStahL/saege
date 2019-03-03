@@ -16,11 +16,13 @@
  */
 
 #include "MatrixModel.hpp"
+#include "ColorProvider.hpp"
 
 MatrixModel::MatrixModel(Matrix* m, QObject* parent)
     : QAbstractTableModel(parent)
     , m_matrix(m)
 {
+    updateColorScheme();
 }
 
 MatrixModel::~MatrixModel()
@@ -41,6 +43,20 @@ QVariant MatrixModel::data(const QModelIndex& index, int role) const
 {
     if(role == Qt::DisplayRole)
         return QVariant(m_matrix->value(index.row(), index.column()));
+    else if(role == Qt::BackgroundColorRole)
+    {
+        if(index.row() % 2 == 0)
+            return QVariant(m_color_scheme[1]);
+        else
+            return QVariant(m_color_scheme[2]);
+    }
+    else if(role == Qt::TextColorRole)
+    {
+        if(index.row() % 2 == 0)
+            return QVariant(m_color_scheme[2]);
+        else
+            return QVariant(m_color_scheme[0]);
+    }
     return QVariant();
 }
 
@@ -87,4 +103,10 @@ bool MatrixModel::insertColumns(int column, int count, const QModelIndex& parent
     bool success = m_matrix->addColumns(count);
     endInsertColumns();
     return success;
+}
+
+void MatrixModel::updateColorScheme()
+{
+    m_color_scheme = ColorProvider().provide();
+    emit dataChanged(index(0,0), index(rowCount(), columnCount()));
 }
