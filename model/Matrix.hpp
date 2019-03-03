@@ -38,7 +38,7 @@ public:
     bool addRow(QString name);
     bool removeRow(QString name);
     
-    bool addCoulumns(int ncolumns);
+    bool addColumns(int ncolumns);
     bool removeColumns(int ncolumns);
     
     QString rowName(int row);
@@ -52,6 +52,9 @@ public:
     
     QString name();
     void setName(QString name);
+    
+    int columnCount() const;
+    int rowCount() const;
     
 private:
     QTime m_time_step;

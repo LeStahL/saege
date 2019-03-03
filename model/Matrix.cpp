@@ -18,6 +18,7 @@
 #include "Matrix.hpp"
 
 #include <QtGlobal>
+#include <QDebug>
 
 void * Matrix::data(int row, int column)
 {
@@ -27,15 +28,15 @@ void * Matrix::data(int row, int column)
     return m_data[row][column];
 }
 
-bool Matrix::addCoulumns(int ncolumns)
+bool Matrix::addColumns(int ncolumns)
 {
     if(ncolumns < 0) return false;
     
-    m_cols += ncolumns;
+    m_cols += ncolumns+1;
     
     for(int i=0; i<m_data.size(); ++i)
     {
-        for(int j=0; j<ncolumns; ++j)
+        for(int j=0; j<ncolumns+1; ++j)
         {
             m_on[i].push_back(0);
             m_data[i].push_back(0);
@@ -91,7 +92,7 @@ bool Matrix::removeRow(QString name)
 }
 
 Matrix::Matrix(QString name)
-    : m_cols(24)
+    : m_cols(0)
     , m_name("")
     , m_time_step(QTime(0,0,1,0))
 {
@@ -126,8 +127,8 @@ bool Matrix::setValue(int row, int column, int value)
 
 int Matrix::value(int row, int column)
 {
-    if(m_data.size() <= row || row < 0) return false;
-    if(m_cols <= column || column < 0) return false;
+    if(m_data.size() <= row || row < 0) return -1;
+    if(m_cols <= column || column < 0) return -1;
     
     return m_on[row][column];
 }
@@ -135,7 +136,9 @@ int Matrix::value(int row, int column)
 QTime Matrix::time(int column)
 {
     int step_msecs = m_time_step.msecsSinceStartOfDay();
-    return QTime(0,0,0,step_msecs*column);
+    QTime ret(0,0,0,0);
+    ret = ret.addMSecs(step_msecs * column);
+    return ret;
 }
 
 QTime Matrix::timeStep()
@@ -170,5 +173,16 @@ QString Matrix::name()
 {
     return m_name;
 }
+
+int Matrix::columnCount() const
+{
+    return m_cols;
+}
+
+int Matrix::rowCount() const
+{
+    return m_row_names.size();
+}
+
 
 

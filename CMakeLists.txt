@@ -41,6 +41,7 @@ set(SAEGE_SRC
     model/gfx/Object.cpp
     model/gfx/Object2D.cpp
     model/Matrix.cpp
+    model/MatrixModel.cpp
     Saege.cpp
 )
 

@@ -24,3 +24,13 @@ set(NODE_MODEL_SRC
 
 add_executable(NodeModelTest ${NODE_MODEL_SRC}) 
 target_link_libraries(NodeModelTest Qt5::Widgets Qt5::Gui)
+
+set(MATRIX_MODEL_SRC
+    MatrixModelTest.cpp 
+    ${PROJECT_SOURCE_DIR}/model/Matrix.cpp
+    ${PROJECT_SOURCE_DIR}/model/MatrixModel.cpp
+    ${PROJECT_SOURCE_DIR}/model/MatrixView.cpp
+)
+
+add_executable(MatrixModelTest ${MATRIX_MODEL_SRC}) 
+target_link_libraries(MatrixModelTest Qt5::Widgets Qt5::Gui)
