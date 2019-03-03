@@ -178,7 +178,7 @@ void MatrixView::keyPressEvent(QKeyEvent* e)
 void MatrixView::removeColumnSlot()
 {
     qDebug() << model()->columnCount(QModelIndex());
-    model()->removeColumns(1, 0);
+    model()->removeColumns(model()->columnCount()-1, 1);
     update();
 }
 

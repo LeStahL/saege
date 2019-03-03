@@ -21,6 +21,7 @@
 #include "MatrixAddRowCommand.hpp"
 #include "MatrixAddColumnCommand.hpp"
 #include "MatrixRemoveRowCommand.hpp"
+#include "MatrixRemoveColumnCommand.hpp"
 
 #include <QFont>
 
@@ -141,10 +142,11 @@ bool MatrixModel::removeRows(int row, int count, const QModelIndex& parent)
 
 bool MatrixModel::removeColumns(int column, int count, const QModelIndex& parent)
 {
-    beginRemoveColumns(parent, column-count, column);
-    bool success = m_matrix->removeColumns(count);
-    endRemoveColumns();
-    return success;
+    if(count != 1) return false;
+    if(column < 0 || column >= m_matrix->columnCount()) return false;
+    
+    m_undo_stack.push(new MatrixRemoveColumnCommand(this, column));
+    return true;
 }
 
 void MatrixModel::updateColorScheme()
