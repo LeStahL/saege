@@ -15,21 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "model/Matrix.hpp"
-#include "model/MatrixModel.hpp"
-#include "model/MatrixView.hpp"
+#ifndef MATRIX_ADD_COLUMN_COMMAND
+#define MATRIX_ADD_COLUMN_COMMAND
 
-#include <QApplication>
+#include <QUndoCommand>
 
-int main(int argc, char **argv)
+#include "MatrixModel.hpp"
+#include "Matrix.hpp"
+
+static int COLUMNCMD_ID = 0;
+
+class MatrixAddColumnCommand : public QUndoCommand
 {
-    QApplication a(argc, argv);
-    MatrixView matrixView;
-    Matrix m("Test matrix");
+public:
+    MatrixAddColumnCommand(MatrixModel *model);
+    virtual ~MatrixAddColumnCommand();
+
+    void redo() override;
+    void undo() override;
     
-    MatrixModel model(&m);
-    matrixView.setModel(&model);
-    matrixView.show();
-    matrixView.update();
-    return a.exec();
-}
+private:
+    MatrixModel *m_model;
+    int m_column_index, m_column_id;
+};
+
+#endif

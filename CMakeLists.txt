@@ -44,6 +44,7 @@ set(SAEGE_SRC
     model/MatrixModel.cpp
     model/MatrixValueChangeCommand.cpp
     model/MatrixAddRowCommand.cpp
+    model/MatrixAddColumnCommand.cpp
     tools/ColorProvider.cpp
     Saege.cpp
 )

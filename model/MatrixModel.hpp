@@ -64,6 +64,11 @@ public:
     void endInsertRows();
     void endRemoveRows();
     
+    void beginInsertColumns(const QModelIndex &m, int row, int col);
+    void beginRemoveColumns(const QModelIndex &m, int row, int col);
+    void endInsertColumns();
+    void endRemoveColumns();
+    
     void undo();
     void redo();
     

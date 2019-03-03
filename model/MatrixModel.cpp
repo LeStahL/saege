@@ -19,6 +19,7 @@
 #include "ColorProvider.hpp"
 #include "MatrixValueChangeCommand.hpp"
 #include "MatrixAddRowCommand.hpp"
+#include "MatrixAddColumnCommand.hpp"
 
 #include <QFont>
 
@@ -52,14 +53,14 @@ QVariant MatrixModel::data(const QModelIndex& index, int role) const
         if(m_matrix->value(index.row(), index.column())!=0)
         {
             if(index.row() % 2 == 0)
-                return QVariant(m_foreground_scheme[8]);
+                return QVariant(m_foreground_scheme[7]);
             else
                 return QVariant(m_foreground_scheme[9]);
         }
         else 
         {
             if(index.row() % 2 == 0)
-                return QVariant(m_color_scheme[2]);
+                return QVariant(m_color_scheme[1]);
             else
                 return QVariant(m_color_scheme[3]);
         }
@@ -120,10 +121,10 @@ bool MatrixModel::insertRows(int row, int count, const QModelIndex& parent)
 
 bool MatrixModel::insertColumns(int column, int count, const QModelIndex& parent)
 {
-    beginInsertColumns(parent, column, column+count);
-    bool success = m_matrix->addColumns(count);
-    endInsertColumns();
-    return success;
+    if(column != m_matrix->columnCount()) return false;
+    if(count != 1) return false;
+    m_undo_stack.push(new MatrixAddColumnCommand(this));
+    return true;
 }
 
 bool MatrixModel::removeRows(int row, int count, const QModelIndex& parent)
@@ -187,6 +188,26 @@ void MatrixModel::endInsertRows()
 void MatrixModel::endRemoveRows()
 {
     QAbstractTableModel::endRemoveRows();
+}
+
+void MatrixModel::beginInsertColumns(const QModelIndex& m, int row, int col)
+{
+    QAbstractTableModel::beginInsertColumns(m, row, col);
+}
+
+void MatrixModel::beginRemoveColumns(const QModelIndex& m, int row, int col)
+{
+    QAbstractTableModel::beginRemoveColumns(m, row, col);
+}
+
+void MatrixModel::endInsertColumns()
+{
+    QAbstractTableModel::endInsertColumns();
+}
+
+void MatrixModel::endRemoveColumns()
+{
+    QAbstractTableModel::endRemoveColumns();
 }
 
 void MatrixModel::undo()

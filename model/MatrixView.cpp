@@ -20,36 +20,51 @@
 #include "ColorProvider.hpp"
 
 #include <QDebug>
+#include <QPalette>
 #include <QHeaderView>
+#include <QLabel>
 
 MatrixView::MatrixView(QWidget *parent)
     : QTableView(parent)
-    , m_add_row_button(new QPushButton("+r", this))
-    , m_add_column_button(new QPushButton("+c", this))
-    , m_change_scheme_button(new QPushButton("S", this))
     , m_column_width(40)
 {
-    verticalHeader()->setMinimumSize(QSize(100,20));
-    horizontalHeader()->setMinimumSize(QSize(40,60));
+    verticalHeader()->setMinimumSize(QSize(200,40));
+    horizontalHeader()->setMinimumSize(QSize(40,40));
+    verticalHeader()->setDefaultSectionSize(40);
+    horizontalHeader()->setDefaultSectionSize(40);
     
-    m_add_column_button->move(20.,0);
-    m_add_column_button->resize(20.,20.);
+    m_name_label = new QLabel("SaeGE", this);
+    m_name_label->move(0,0);
+    m_name_label->resize(200, 40);
+    m_name_label->show();
+    
+    uint cp = 0x271A;
+    QString mystr = QString::fromUcs4(&cp, 1);
+    m_add_column_button = new QPushButton(mystr, this);
+    m_add_column_button->move(60.,0);
+    m_add_column_button->resize(40.,40.);
     m_add_column_button->show();
     connect(m_add_column_button, SIGNAL(clicked()), this, SLOT(addColumnSlot()));
     
+    m_add_row_button = new QPushButton(mystr, this);
     m_add_row_button->move(0.,0);
-    m_add_row_button->resize(20.,20.);
+    m_add_row_button->resize(40.,40.);
     m_add_row_button->show();
     connect(m_add_row_button, SIGNAL(clicked()), this, SLOT(addRowSlot()));
     
-    m_change_scheme_button->move(40.,0);
-    m_change_scheme_button->resize(20.,20.);
+    cp = 0x273F;
+    mystr = QString::fromUcs4(&cp, 1);
+    m_change_scheme_button = new QPushButton(mystr, this);
+    m_change_scheme_button->move(161.,1);
+    m_change_scheme_button->resize(40.,40.);
     m_change_scheme_button->show();
     connect(m_change_scheme_button, SIGNAL(clicked()), this, SLOT(changeSchemeSlot()));
     
-    QPushButton *button = new QPushButton("-", this);
+    cp = 0x2718;
+    mystr = QString::fromUcs4(&cp, 1);
+    QPushButton *button = new QPushButton(mystr, this);
     button->move(60,0);
-    button->resize(40,20);
+    button->resize(40,40);
     button->show();
     connect(button, SIGNAL(clicked()), this, SLOT(removeColumnSlot()));
     m_remove_column_button = button;
@@ -81,24 +96,14 @@ void MatrixView::addColumnSlot()
 void MatrixView::changeSchemeSlot()
 {
     ((MatrixModel*)model())->updateColorScheme();
-}
-
-void MatrixView::setColumnWidth(int width)
-{
-    m_column_width = width;
-    for(int i=0; i<((MatrixModel*)model())->columnCount(); ++i)
-        QTableView::setColumnWidth(i,width);
-    for(int i=0; i<((MatrixModel*)model())->rowCount(); ++i)
-        QTableView::setRowHeight(i,width);
-    ((MatrixModel*)model())->updateAll();
+    update();
 }
 
 void MatrixView::update()
 {
-    setColumnWidth(m_column_width);
-    ((MatrixModel*)model())->updateAll();
-    
-    m_remove_column_button->move(((MatrixModel*)model())->columnCount()*(m_column_width+19.)+61,0);
+    m_remove_column_button->move(((MatrixModel*)model())->columnCount()*(m_column_width)+201,0);
+    m_add_column_button->move(241+((MatrixModel*)model())->columnCount()*(m_column_width),0);
+    m_add_row_button->move(161.,41.+((MatrixModel*)model())->rowCount()*(m_column_width));
     
     if(m_remove_row_buttons.size() != ((MatrixModel*)model())->rowCount())
     {
@@ -110,9 +115,11 @@ void MatrixView::update()
             {
                 if(i>=m_remove_row_buttons.size())
                 {
-                    QPushButton *button = new QPushButton("-", this);
-                    button->move(60,stack+62.);
-                    button->resize(40,20);
+                    uint cp = 0x2718;
+                    QString mystr = QString::fromUcs4(&cp, 1);
+                    QPushButton *button = new QPushButton(mystr, this);
+                    button->move(161,stack+41.);
+                    button->resize(40,40);
                     button->show();
                     m_remove_row_buttons.push_back(button);
                     connect(button, SIGNAL(clicked()), this, SLOT(removeRowSlot()));
@@ -139,6 +146,18 @@ void MatrixView::update()
             }
         }
     }
+    
+    QList<QColor> palette = ((MatrixModel*)model())->colorScheme();
+    QString stylesheet = "QLabel,QHeaderView,QTableView{alignment:top;font:bold;font-size:14pt;background-color:" + palette[0].name()
+        + ";color:" + palette[9].name() 
+        + ";}QHeaderView::Section{background-color:"+palette[4].name()+";}QPushButton{font:bold;font-size:14pt;background-color:" + palette[8].name()
+        + ";color:" + palette[1].name() 
+        + ";}";
+    setStyleSheet(stylesheet);
+    verticalHeader()->setStyleSheet(stylesheet);
+    horizontalHeader()->setStyleSheet(stylesheet);
+    
+    QTableView::update();
 }
 
 void MatrixView::keyPressEvent(QKeyEvent* e)

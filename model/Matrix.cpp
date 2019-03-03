@@ -32,11 +32,11 @@ bool Matrix::addColumns(int ncolumns)
 {
     if(ncolumns < 0) return false;
     
-    m_cols += ncolumns+1;
+    m_cols += ncolumns;
     
     for(int i=0; i<m_data.size(); ++i)
     {
-        for(int j=0; j<ncolumns+1; ++j)
+        for(int j=0; j<ncolumns; ++j)
         {
             m_on[i].push_back(0);
             m_data[i].push_back(0);

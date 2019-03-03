@@ -36,7 +36,7 @@ public:
     
 private:
     MatrixModel *m_model;
-    int m_row_index;
+    int m_row_index, m_row_id;
 };
 
 #endif

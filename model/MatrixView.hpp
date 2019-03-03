@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QKeyEvent>
 #include <QPushButton>
+#include <QLabel>
 
 class MatrixView : public QTableView
 {
@@ -30,7 +31,6 @@ class MatrixView : public QTableView
 public:
     MatrixView(QWidget *parent = 0);
     virtual ~MatrixView();
-    void setColumnWidth(int width);
     void update();
     
 private slots:
@@ -47,6 +47,7 @@ private:
     QList<QPushButton *> m_remove_row_buttons;
     QPushButton * m_remove_column_button;
     int m_column_width;
+    QLabel *m_name_label;
 };
 
 #endif

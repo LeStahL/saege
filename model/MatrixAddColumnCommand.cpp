@@ -15,34 +15,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "MatrixAddRowCommand.hpp"
+#include "MatrixAddColumnCommand.hpp"
 
 #include <QModelIndex>
 
-MatrixAddRowCommand::MatrixAddRowCommand(MatrixModel *model)
+MatrixAddColumnCommand::MatrixAddColumnCommand(MatrixModel *model)
     : QUndoCommand()
     , m_model(model)
-    , m_row_id(ROWCMD_ID)
+    , m_column_id(COLUMNCMD_ID)
 {
-    setText(QString("Add row %1").arg(m_row_id));
-    ++ROWCMD_ID;
-    m_row_index = m_model->matrix()->rowCount();
+    setText(QString("Add column %1").arg(m_column_id));
+    ++COLUMNCMD_ID;
+    m_column_index = m_model->matrix()->columnCount();
 }
 
-void MatrixAddRowCommand::redo()
+void MatrixAddColumnCommand::redo()
 {
-    m_model->beginInsertRows(QModelIndex(), m_row_index, m_row_index);
-    m_model->matrix()->addRow(QString("Track %1").arg(m_row_id));
-    m_model->endInsertRows();
+    m_model->beginInsertColumns(QModelIndex(), m_column_index, m_column_index);
+    m_model->matrix()->addColumns(1);
+    m_model->endInsertColumns();
+    m_model->updateAll();
 }
 
-void MatrixAddRowCommand::undo()
+void MatrixAddColumnCommand::undo()
 {
-    m_model->beginRemoveRows(QModelIndex(), m_row_index, m_row_index);
-    m_model->matrix()->removeRow(m_row_index);
-    m_model->endRemoveRows();
+    m_model->beginRemoveColumns(QModelIndex(), m_column_index, m_column_index);
+    m_model->matrix()->removeColumns(1);
+    m_model->endRemoveColumns();
+    m_model->updateAll();
 }
 
-MatrixAddRowCommand::~MatrixAddRowCommand()
+MatrixAddColumnCommand::~MatrixAddColumnCommand()
 {
 }
