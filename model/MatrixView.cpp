@@ -27,6 +27,7 @@ MatrixView::MatrixView(QWidget *parent)
     , m_add_row_button(new QPushButton("+r", this))
     , m_add_column_button(new QPushButton("+c", this))
     , m_change_scheme_button(new QPushButton("S", this))
+    , m_column_width(20)
 {
     verticalHeader()->setMinimumSize(QSize(60,20));
     
@@ -56,15 +57,30 @@ MatrixView::~MatrixView()
 void MatrixView::addRowSlot()
 {
     model()->insertRows(model()->rowCount(QModelIndex()), 0);
+    update();
 }
 
 void MatrixView::addColumnSlot()
 {
     model()->insertColumns(model()->columnCount(QModelIndex()), 4);
+    update();
 }
 
 void MatrixView::changeSchemeSlot()
 {
     ((MatrixModel*)model())->updateColorScheme();
-    update();
+}
+
+void MatrixView::setColumnWidth(int width)
+{
+    m_column_width = width;
+    for(int i=0; i<((MatrixModel*)model())->columnCount(); ++i)
+        QTableView::setColumnWidth(i,width);
+    ((MatrixModel*)model())->updateAll();
+}
+
+void MatrixView::update()
+{
+    setColumnWidth(m_column_width);
+    ((MatrixModel*)model())->updateAll();
 }

@@ -29,15 +29,16 @@ ColorProvider::~ColorProvider()
 
 QList<QColor> ColorProvider::provide()
 {
-    QColor any = QColor::fromRgb(QRandomGenerator::global()->generate()),
-        light = QColor::fromRgb(.7*255+.3*any.red(), .7*255+.3*any.green(), .7*255+.3*any.blue()),
-        dark = QColor::fromRgb(.4*255+.3*any.red(), .4*255+.3*any.green(), .4*255+.3*any.blue()),
-        verydark =  QColor::fromRgb(.2*255+.3*any.red(), .2*255+.3*any.green(), .2*255+.3*any.blue());
-        
+    QColor any = QColor::fromRgb(QRandomGenerator::global()->generate());
+//     any = QColor::fromRgb(255.*.6+.4*any.red(), 255.*.6+.4*any.green(), 255.*.6+.4*any.blue());
+    
     QList<QColor> colors;
-    colors.push_back(verydark);
-    colors.push_back(dark);
-    colors.push_back(light);
-
+    for(int i=0; i<10; ++i)
+    {
+        colors.push_back(QColor::fromRgb((float)i/10.*255.+(1.-(float)i)/10.*any.red(),
+                                         (float)i/10.*255.+(1.-(float)i)/10.*any.green(),
+                                         (float)i/10.*255.+(1.-(float)i)/10.*any.blue()));
+    }
+    
     return colors;
 }

@@ -48,10 +48,13 @@ public:
     bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
     
     void updateColorScheme();
+    QList<QColor> colorScheme();
+    
+    void updateAll();
     
 private:
     Matrix *m_matrix;
-    QList<QColor> m_color_scheme;
+    QList<QColor> m_color_scheme, m_foreground_scheme;
 };
 
 #endif

@@ -18,6 +18,8 @@
 #include "MatrixModel.hpp"
 #include "ColorProvider.hpp"
 
+#include <QFont>
+
 MatrixModel::MatrixModel(Matrix* m, QObject* parent)
     : QAbstractTableModel(parent)
     , m_matrix(m)
@@ -45,17 +47,36 @@ QVariant MatrixModel::data(const QModelIndex& index, int role) const
         return QVariant(m_matrix->value(index.row(), index.column()));
     else if(role == Qt::BackgroundColorRole)
     {
-        if(index.row() % 2 == 0)
-            return QVariant(m_color_scheme[1]);
-        else
-            return QVariant(m_color_scheme[2]);
+        if(m_matrix->value(index.row(), index.column())!=0)
+        {
+            if(index.row() % 2 == 0)
+                return QVariant(m_foreground_scheme[8]);
+            else
+                return QVariant(m_foreground_scheme[9]);
+        }
+        else 
+        {
+            if(index.row() % 2 == 0)
+                return QVariant(m_color_scheme[2]);
+            else
+                return QVariant(m_color_scheme[3]);
+        }
     }
     else if(role == Qt::TextColorRole)
     {
-        if(index.row() % 2 == 0)
-            return QVariant(m_color_scheme[2]);
+        if(m_matrix->value(index.row(), index.column())!=0)
+        {
+            return QVariant(m_foreground_scheme[1]);
+        }
         else
-            return QVariant(m_color_scheme[0]);
+            return QVariant(m_color_scheme[9]);
+    }
+    else if(role == Qt::FontRole)
+    {
+        QFont font;
+        font.setBold(true);
+        font.setPointSize(18.);
+        return QVariant(font);
     }
     return QVariant();
 }
@@ -108,5 +129,16 @@ bool MatrixModel::insertColumns(int column, int count, const QModelIndex& parent
 void MatrixModel::updateColorScheme()
 {
     m_color_scheme = ColorProvider().provide();
+    m_foreground_scheme = ColorProvider().provide();
+    emit dataChanged(index(0,0), index(rowCount(), columnCount()));
+}
+
+QList<QColor> MatrixModel::colorScheme()
+{
+    return m_color_scheme;
+}
+
+void MatrixModel::updateAll()
+{
     emit dataChanged(index(0,0), index(rowCount(), columnCount()));
 }

@@ -35,6 +35,7 @@ int main(int argc, char **argv)
     
     MatrixModel model(&m);
     matrixView.setModel(&model);
+    matrixView.setColumnWidth(20);
     matrixView.show();
     return a.exec();
 }

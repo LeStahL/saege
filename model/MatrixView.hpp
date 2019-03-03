@@ -30,6 +30,8 @@ class MatrixView : public QTableView
 public:
     MatrixView(QWidget *parent = 0);
     virtual ~MatrixView();
+    void setColumnWidth(int width);
+    void update();
     
 private slots:
     void addColumnSlot();
@@ -38,6 +40,7 @@ private slots:
     
 private:
     QPushButton *m_add_row_button, *m_add_column_button, *m_change_scheme_button;
+    int m_column_width;
 };
 
 #endif
