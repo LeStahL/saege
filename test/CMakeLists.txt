@@ -15,6 +15,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 include_directories(${PROJECT_SOURCE_DIR})
+include_directories(${PROJECT_SOURCE_DIR}/tools)
+
 set(NODE_MODEL_SRC
     NodeModelTest.cpp 
     ${PROJECT_SOURCE_DIR}/model/graph/Graph.cpp
@@ -30,6 +32,7 @@ set(MATRIX_MODEL_SRC
     ${PROJECT_SOURCE_DIR}/model/Matrix.cpp
     ${PROJECT_SOURCE_DIR}/model/MatrixModel.cpp
     ${PROJECT_SOURCE_DIR}/model/MatrixView.cpp
+    ${PROJECT_SOURCE_DIR}/tools/ColorProvider.cpp
 )
 
 add_executable(MatrixModelTest ${MATRIX_MODEL_SRC}) 

@@ -19,6 +19,7 @@
 #define COLOR_PROVIDER_H
 
 #include <QColor>
+#include <QList>
 
 class ColorProvider
 {
@@ -26,8 +27,7 @@ public:
     ColorProvider();
     virtual ~ColorProvider();
     
-    QColor provideDark();
-    QColor provideBright();
+    QList<QColor> provide();
     
 private:
     

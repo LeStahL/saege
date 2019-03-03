@@ -27,7 +27,17 @@ ColorProvider::~ColorProvider()
 {
 }
 
-int ColorProvider::provideDark()
+QList<QColor> ColorProvider::provide()
 {
-    return QColor::fromHSV(.05+.9*QRandomGenerator::global()->generate(), .8, .88);
+    QColor any = QColor::fromRgb(QRandomGenerator::global()->generate()),
+        light = QColor::fromRgb(.7*255+.3*any.red(), .7*255+.3*any.green(), .7*255+.3*any.blue()),
+        dark = QColor::fromRgb(.4*255+.3*any.red(), .4*255+.3*any.green(), .4*255+.3*any.blue()),
+        verydark =  QColor::fromRgb(.2*255+.3*any.red(), .2*255+.3*any.green(), .2*255+.3*any.blue());
+        
+    QList<QColor> colors;
+    colors.push_back(verydark);
+    colors.push_back(dark);
+    colors.push_back(light);
+
+    return colors;
 }

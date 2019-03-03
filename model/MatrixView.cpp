@@ -16,13 +16,21 @@
  */
 
 #include "MatrixView.hpp"
+#include "ColorProvider.hpp"
+
+#include <QDebug>
+#include <QHeaderView>
 
 MatrixView::MatrixView(QWidget *parent)
     : QTableView(parent)
     , m_add_row_button(new QPushButton("+r", this))
     , m_add_column_button(new QPushButton("+c", this))
+    , m_change_scheme_button(new QPushButton("S", this))
+    , m_row_color_scheme(ColorProvider().provide())
 {
+    verticalHeader()->setMinimumSize(QSize(60,20));
     setAlternatingRowColors(true);
+    changeSchemeSlot();
     
     m_add_column_button->move(20.,0);
     m_add_column_button->resize(20.,20.);
@@ -34,12 +42,17 @@ MatrixView::MatrixView(QWidget *parent)
     m_add_row_button->show();
     connect(m_add_row_button, SIGNAL(clicked()), this, SLOT(addRowSlot()));
     
+    m_change_scheme_button->move(40.,0);
+    m_change_scheme_button->resize(20.,20.);
+    m_change_scheme_button->show();
+    connect(m_change_scheme_button, SIGNAL(clicked()), this, SLOT(changeSchemeSlot()));
 }
-        
+
 MatrixView::~MatrixView()
 {
     delete m_add_row_button;
     delete m_add_column_button;
+    delete m_change_scheme_button;
 }
 
 void MatrixView::addRowSlot()
@@ -50,4 +63,24 @@ void MatrixView::addRowSlot()
 void MatrixView::addColumnSlot()
 {
     model()->insertColumns(model()->columnCount(QModelIndex()), 4);
+}
+
+void MatrixView::changeSchemeSlot()
+{
+    m_row_color_scheme = ColorProvider().provide();
+    
+    QString header_style = "background-color:" + m_row_color_scheme[0].name() 
+                         + ";color:" + m_row_color_scheme[1].name() 
+                         + ";selection-background-color:" + m_row_color_scheme[0].name()
+                         + ";selection-color:" + m_row_color_scheme[2].name()
+                         + ";";
+    horizontalHeader()->setStyleSheet(header_style);
+    verticalHeader()->setStyleSheet(header_style);
+    setStyleSheet("background-color:" + m_row_color_scheme[2].name() 
+                + ";alternate-background-color:" + m_row_color_scheme[1].name() 
+                + ";color:" + m_row_color_scheme[0].name() 
+                + ";selection-background-color:" + m_row_color_scheme[0].name()
+                + ";selection-color:" + m_row_color_scheme[2].name()
+                + ";");
+    
 }

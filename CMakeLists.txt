@@ -42,8 +42,11 @@ set(SAEGE_SRC
     model/gfx/Object2D.cpp
     model/Matrix.cpp
     model/MatrixModel.cpp
+    tools/ColorProvider.cpp
     Saege.cpp
 )
+
+include_directories(${PROJECT_SOURCE_DIR}/tools)
 
 add_executable(saege-v1.57-binge ${SAEGE_SRC})
 target_link_libraries(saege-v1.57-binge Qt5::Widgets Qt5::Gui)
