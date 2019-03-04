@@ -30,6 +30,8 @@ MatrixView::MatrixView(QWidget *parent)
     : QTableView(parent)
     , m_column_width(40)
 {
+    setEditTriggers(QAbstractItemView::DoubleClicked);
+    
     m_vertical_header_view = new MatrixHeaderView(Qt::Vertical, this);
     setVerticalHeader(m_vertical_header_view);
     
@@ -165,6 +167,8 @@ void MatrixView::update()
 
 void MatrixView::keyPressEvent(QKeyEvent* e)
 {
+    QTableView::keyPressEvent(e);
+    
     if(e->matches(QKeySequence::Undo))
         ((MatrixModel*)model())->undo();
     if(e->matches(QKeySequence::Redo))
@@ -188,6 +192,26 @@ void MatrixView::keyPressEvent(QKeyEvent* e)
             model()->setData(selectionmodel.at(i), QVariant(0));
         }
     }
+#define NUMERIC_KEY(_key, _num)\
+    else if(e->key() == _key)\
+    {\
+        QModelIndexList selectionmodel = selectionModel()->selectedIndexes();\
+        for(int i=0; i<selectionmodel.count(); ++i)\
+        {\
+            QVariant data = model()->data(selectionmodel.at(i), Qt::DisplayRole);\
+            model()->setData(selectionmodel.at(i), QVariant(_num));\
+        }\
+    }
+    NUMERIC_KEY(Qt::Key_0, 0)
+    NUMERIC_KEY(Qt::Key_1, 1)
+    NUMERIC_KEY(Qt::Key_2, 2)
+    NUMERIC_KEY(Qt::Key_3, 3)
+    NUMERIC_KEY(Qt::Key_4, 4)
+    NUMERIC_KEY(Qt::Key_5, 5)
+    NUMERIC_KEY(Qt::Key_6, 6)
+    NUMERIC_KEY(Qt::Key_7, 7)
+    NUMERIC_KEY(Qt::Key_8, 8)
+    NUMERIC_KEY(Qt::Key_9, 9)
     
     update();
 }
