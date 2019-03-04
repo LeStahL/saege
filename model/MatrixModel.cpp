@@ -22,6 +22,7 @@
 #include "MatrixAddColumnCommand.hpp"
 #include "MatrixRemoveRowCommand.hpp"
 #include "MatrixRemoveColumnCommand.hpp"
+#include "MatrixChangeRowNameCommand.hpp"
 
 #include <QFont>
 
@@ -95,8 +96,38 @@ QVariant MatrixModel::headerData(int section, Qt::Orientation orientation, int r
         else if(orientation == Qt::Vertical)
             return QVariant(m_matrix->rowName(section));
     }
+    else if(role == Qt::BackgroundRole)
+    {
+        if(section % 2 == 0)
+            return QVariant(m_color_scheme[1]);
+        else
+            return QVariant(m_color_scheme[3]);
+    }
+    else if(role == Qt::TextColorRole)
+    {
+        return QVariant(m_color_scheme[9]);
+    }
+    else if(role == Qt::FontRole)
+    {
+        QFont font;
+        font.setBold(true);
+        font.setPointSize(14.);
+        return QVariant(font);
+    }
     return QVariant();
 }
+
+bool MatrixModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
+{
+    if(role == Qt::EditRole)
+    {
+        if(orientation == Qt::Horizontal) return false;
+        m_undo_stack->push(new MatrixChangeRowNameCommand(section, value, this));
+        return true;
+    }
+    return false;
+}
+
 
 Qt::ItemFlags MatrixModel::flags(const QModelIndex& index) const
 {
@@ -224,4 +255,9 @@ void MatrixModel::undo()
 void MatrixModel::redo()
 {
     if(m_undo_stack.canRedo()) m_undo_stack.redo();
+}
+
+QModelIndex MatrixModel::createIndex(int row, int column, void* ptr) const
+{
+    return QAbstractTableModel::createIndex(row, column, ptr);
 }

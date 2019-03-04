@@ -24,11 +24,15 @@
 #include <QHeaderView>
 #include <QModelIndexList>
 #include <QLabel>
+#include <QSize>
 
 MatrixView::MatrixView(QWidget *parent)
     : QTableView(parent)
     , m_column_width(40)
 {
+    m_vertical_header_view = new MatrixHeaderView(Qt::Vertical, this);
+    setVerticalHeader(m_vertical_header_view);
+    
     verticalHeader()->setMinimumSize(QSize(200,40));
     horizontalHeader()->setMinimumSize(QSize(40,40));
     verticalHeader()->setDefaultSectionSize(40);
@@ -77,6 +81,9 @@ MatrixView::~MatrixView()
     delete m_add_column_button;
     delete m_change_scheme_button;
     delete m_remove_column_button;
+    
+    //TODO: delete m_remove_row_buttons
+    delete m_vertical_header_view;
 }
 
 void MatrixView::addRowSlot()
@@ -144,7 +151,7 @@ void MatrixView::update()
     }
     
     QList<QColor> palette = ((MatrixModel*)model())->colorScheme();
-    QString stylesheet = "QLabel,QHeaderView,QTableView{alignment:top;font:bold;font-size:14pt;background-color:" + palette[0].name()
+    QString stylesheet = "QLabel,QHeaderView,QTableView{font:bold;font-size:14pt;background-color:" + palette[0].name()
         + ";color:" + palette[9].name() 
         + ";}QHeaderView::Section{background-color:"+palette[4].name()+";}QPushButton{font:bold;font-size:14pt;background-color:" + palette[8].name()
         + ";color:" + palette[1].name() 
@@ -200,4 +207,9 @@ void MatrixView::removeRowSlot()
     m_remove_row_buttons.pop_back();
     delete blast;
     update();
+}
+
+QSize MatrixView::horizontalHeaderSectionSize()
+{
+    return QSize(160, m_column_width);
 }

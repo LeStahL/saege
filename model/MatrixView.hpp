@@ -23,6 +23,9 @@
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QLabel>
+#include <QSize>
+
+#include "MatrixHeaderView.hpp"
 
 class MatrixView : public QTableView
 {
@@ -33,6 +36,8 @@ public:
     virtual ~MatrixView();
     void update();
     
+    QSize horizontalHeaderSectionSize();
+    
 private slots:
     void addColumnSlot();
     void addRowSlot();
@@ -41,13 +46,14 @@ private slots:
     void removeRowSlot();
     
     void keyPressEvent(QKeyEvent *e);
-    
+
 private:
     QPushButton *m_add_row_button, *m_add_column_button, *m_change_scheme_button;
     QList<QPushButton *> m_remove_row_buttons;
     QPushButton * m_remove_column_button;
     int m_column_width;
     QLabel *m_name_label;
+    MatrixHeaderView *m_vertical_header_view, *m_horizontal_header_view;
 };
 
 #endif

@@ -15,40 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef MATRIX_HEADER_VIEW_H
-#define MATRIX_HEADER_VIEW_H
+#ifndef MATRIX_CHANGE_ROW_NAME_COMMAND_H
+#define MATRIX_CHANGE_ROW_NAME_COMMAND_H
 
-class MatrixView;
+#include <QUndoCommand>
+#include <QModelIndex>
+#include <QVariant>
 
-#include <QHeaderView>
-#include <QAbstractTableModel>
-#include <QPainter>
-#include <QPaintEvent>
-#include <QRect>
-#include <QWidget>
-#include <QMouseEvent>
-#include <QKeyEvent>
+#include "MatrixModel.hpp"
+#include "Matrix.hpp"
 
-class MatrixHeaderView : public QHeaderView
+class MatrixChangeRowNameCommand : public QUndoCommand
 {
-    Q_OBJECT
-    
 public:
-    explicit MatrixHeaderView(Qt::Orientation orientation, QWidget *parent = nullptr);
-    virtual ~MatrixHeaderView();
+    MatrixChangeRowNameCommand(int index, const QVariant &value, MatrixModel *model);
+    virtual ~MatrixChangeRowNameCommand();
     
-private slots:
-    void finishEditing();
-    
-protected:
-    void paintEvent(QPaintEvent *e) override;
-    void paintSection(QPainter *painter, const QRect &rect, int logicalIndex) const;
-    void mouseDoubleClickEvent(QMouseEvent *e);
+    void redo() override;
+    void undo() override;
     
 private:
-    MatrixView *m_view;
-    QLineEdit *m_editor;
-    int m_index;
+    MatrixModel *m_model;
+    QVariant m_new, m_old;
+    int m_row;
 };
 
 #endif

@@ -42,11 +42,14 @@ set(SAEGE_SRC
     model/gfx/Object2D.cpp
     model/Matrix.cpp
     model/MatrixModel.cpp
+    model/MatrixView.cpp
     model/MatrixValueChangeCommand.cpp
     model/MatrixAddRowCommand.cpp
     model/MatrixAddColumnCommand.cpp
     model/MatrixRemoveColumnCommand.cpp
     model/MatrixRemoveRowCommand.cpp
+    model/MatrixHeaderView.cpp
+    model/LineEditDelegate.cpp
     tools/ColorProvider.cpp
     Saege.cpp
 )

@@ -15,40 +15,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef MATRIX_HEADER_VIEW_H
-#define MATRIX_HEADER_VIEW_H
+#ifndef LINE_EDIT_DELEGATE_H
+#define LINE_EDIT_DELEGATE_H
 
-class MatrixView;
+#include <QItemDelegate>
+#include <QObject>
+#include <QLineEdit>
 
-#include <QHeaderView>
-#include <QAbstractTableModel>
-#include <QPainter>
-#include <QPaintEvent>
-#include <QRect>
-#include <QWidget>
-#include <QMouseEvent>
-#include <QKeyEvent>
-
-class MatrixHeaderView : public QHeaderView
+class LineEditDelegate : public QItemDelegate
 {
     Q_OBJECT
     
 public:
-    explicit MatrixHeaderView(Qt::Orientation orientation, QWidget *parent = nullptr);
-    virtual ~MatrixHeaderView();
+    LineEditDelegate(QObject *parent);
+    virtual ~LineEditDelegate();
     
-private slots:
-    void finishEditing();
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     
-protected:
-    void paintEvent(QPaintEvent *e) override;
-    void paintSection(QPainter *painter, const QRect &rect, int logicalIndex) const;
-    void mouseDoubleClickEvent(QMouseEvent *e);
-    
-private:
-    MatrixView *m_view;
-    QLineEdit *m_editor;
-    int m_index;
 };
 
 #endif
