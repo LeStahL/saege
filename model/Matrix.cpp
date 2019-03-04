@@ -202,6 +202,10 @@ QString Matrix::toString()
 
 void Matrix::fromString(QString str)
 {
+    m_row_names.clear();
+    m_on.clear();
+    m_cols = 0;
+    
     QStringList lines = str.split('\n');
     if(lines.count() == 0) return;
     m_name = lines[0];
@@ -209,6 +213,7 @@ void Matrix::fromString(QString str)
     {
         QString line = lines[i];
         QStringList cols = line.split(' ');
+        qDebug() << cols;
         if(cols.count() == 0) return;
         QString rowname = cols[0];
         addRow(rowname);

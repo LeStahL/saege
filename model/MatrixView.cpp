@@ -196,7 +196,17 @@ void MatrixView::keyPressEvent(QKeyEvent* e)
         QTextStream s1((FILE*)&file, QIODevice::ReadOnly);
         s.append(s1.readAll());
         file.close();
+//         ((MatrixModel*)model())->beginRemoveRows();
+//         ((MatrixModel*)model())->beginInsertRows();
+//         ((MatrixModel*)model())->beginRemoveColumns();
+//         ((MatrixModel*)model())->beginInsertColumns();
         ((MatrixModel*)model())->matrix()->fromString(s);
+//         ((MatrixModel*)model())->endRemoveRows();
+//         ((MatrixModel*)model())->endInsertRows();
+//         ((MatrixModel*)model())->endRemoveColumns();
+//         ((MatrixModel*)model())->endInsertColumns();
+        ((MatrixModel*)model())->updateAll();
+        update();
     }
     else if(e->matches(QKeySequence::Save))
     {
@@ -207,8 +217,7 @@ void MatrixView::keyPressEvent(QKeyEvent* e)
             QTextStream stream(&file);
             stream << ((MatrixModel*)model())->matrix()->toString() << endl;
         }
-       ((MatrixModel*)model())->updateAll();
-        update();
+       
     }
     
     if(e->key() == Qt::Key_Space )
