@@ -34,6 +34,7 @@ public:
 //     void fromXml(QString source);
     
     QString toString();
+    void fromString(QString str);
     
     bool addRow(QString name);
     bool addRow(int index, QString name);

@@ -257,6 +257,10 @@ void MatrixModel::redo()
     if(m_undo_stack.canRedo()) m_undo_stack.redo();
 }
 
+// void MatrixModel::paste(QModelIndexList topaste)
+// {
+// }
+
 QModelIndex MatrixModel::createIndex(int row, int column, void* ptr) const
 {
     return QAbstractTableModel::createIndex(row, column, ptr);

@@ -27,6 +27,7 @@
 #include <QColor>
 #include <QList>
 #include <QUndoStack>
+#include <QModelIndexList>
 
 class MatrixModel : public QAbstractTableModel
 {
@@ -72,6 +73,8 @@ public:
     
     void undo();
     void redo();
+    
+//     void paste(QModelIndex where, QModelIndexList topaste);
     
     QModelIndex createIndex(int row, int column, void *ptr = nullptr) const;
     

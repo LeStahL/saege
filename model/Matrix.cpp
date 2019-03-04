@@ -189,15 +189,38 @@ bool Matrix::setRowName(int row, QString name)
 
 QString Matrix::toString()
 {
-    QString ret;
+    QString ret = m_name + "\n";
     for(int i=0; i<m_on.size(); ++i)
     {
+        ret += m_row_names[i] + " ";
         for(int j=0; j<m_cols; ++j)
             ret += QString::number(m_on[i][j])+ " ";
         ret += "\n";
     }
     return ret;
 }
+
+void Matrix::fromString(QString str)
+{
+    QStringList lines = str.split('\n');
+    if(lines.count() == 0) return;
+    m_name = lines[0];
+    for(int i=1; i<lines.count(); ++i)
+    {
+        QString line = lines[i];
+        QStringList cols = line.split(' ');
+        if(cols.count() == 0) return;
+        QString rowname = cols[0];
+        addRow(rowname);
+        addColumns(cols.count()-1);
+        for(int j=1; j<cols.count(); ++j)
+        {
+            int value = cols[i].toInt();
+            setValue(i-1,j-1,value);
+        }
+    }
+}
+
 
 void Matrix::setName(QString name)
 {

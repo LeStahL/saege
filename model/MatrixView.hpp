@@ -24,6 +24,8 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QSize>
+#include <QModelIndex>
+#include <QModelIndexList>
 
 #include "MatrixHeaderView.hpp"
 
@@ -54,6 +56,7 @@ private:
     int m_column_width;
     QLabel *m_name_label;
     MatrixHeaderView *m_vertical_header_view, *m_horizontal_header_view;
+    QModelIndexList m_copy_buffer;
 };
 
 #endif

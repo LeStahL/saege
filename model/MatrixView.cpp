@@ -25,6 +25,8 @@
 #include <QModelIndexList>
 #include <QLabel>
 #include <QSize>
+#include <QFileDialog>
+#include <QFile>
 
 MatrixView::MatrixView(QWidget *parent)
     : QTableView(parent)
@@ -167,12 +169,47 @@ void MatrixView::update()
 
 void MatrixView::keyPressEvent(QKeyEvent* e)
 {
-    QTableView::keyPressEvent(e);
+    bool call_base = true;
     
     if(e->matches(QKeySequence::Undo))
         ((MatrixModel*)model())->undo();
     if(e->matches(QKeySequence::Redo))
         ((MatrixModel*)model())->redo();
+//     if(e->matches(QKeySequence::Copy))
+//     {
+//         QModelIndexList selected = selectionModel()->selectedIndexes();
+//         for(int i=0; i<
+//     }
+//     if(e->matches(QKeySequence::Paste))
+//     {
+//         QModelIndexList selectedIndexes = selectionModel()->selectedIndexes();
+//         QModelIndex topleft = model()->index(0,0);
+//         ((MatrixModel*)model())->paste(m_copy_buffer);
+//     }
+    if(e->matches(QKeySequence::Open))
+    {
+        QString fileName = QFileDialog::getOpenFileName(this,
+            "Open File", "", "All files (*.*)");
+        QFile file(fileName);
+        file.open(QIODevice::ReadOnly);
+        QString s;
+        QTextStream s1((FILE*)&file, QIODevice::ReadOnly);
+        s.append(s1.readAll());
+        file.close();
+        ((MatrixModel*)model())->matrix()->fromString(s);
+    }
+    else if(e->matches(QKeySequence::Save))
+    {
+        QString fileName = QFileDialog::getSaveFileName(this,
+            "Save File", "", "All files (*.*)");
+        QFile file(fileName);
+        if (file.open(QIODevice::ReadWrite)) {
+            QTextStream stream(&file);
+            stream << ((MatrixModel*)model())->matrix()->toString() << endl;
+        }
+       ((MatrixModel*)model())->updateAll();
+        update();
+    }
     
     if(e->key() == Qt::Key_Space )
     {
@@ -195,6 +232,7 @@ void MatrixView::keyPressEvent(QKeyEvent* e)
 #define NUMERIC_KEY(_key, _num)\
     else if(e->key() == _key)\
     {\
+        call_base = false;\
         QModelIndexList selectionmodel = selectionModel()->selectedIndexes();\
         for(int i=0; i<selectionmodel.count(); ++i)\
         {\
@@ -213,6 +251,7 @@ void MatrixView::keyPressEvent(QKeyEvent* e)
     NUMERIC_KEY(Qt::Key_8, 8)
     NUMERIC_KEY(Qt::Key_9, 9)
     
+    if(call_base) QTableView::keyPressEvent(e);
     update();
 }
 
