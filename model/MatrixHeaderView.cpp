@@ -32,10 +32,19 @@ MatrixHeaderView::MatrixHeaderView(Qt::Orientation orientation, QWidget *parent)
     setSectionResizeMode(QHeaderView::ResizeMode::Fixed);
     setEditTriggers(QAbstractItemView::DoubleClicked);
     setItemDelegate(new LineEditDelegate(this));
+    
+    uint cp = 0x2718;
+    QString mystr = QString::fromUcs4(&cp, 1);
+    
+    m_remove_button = new QPushButton(mystr, (QWidget*)this);
+    int h = m_view->horizontalHeaderSectionSize().height();
+    m_remove_button->resize(h,h);
+    m_remove_button->hide();
 }
 
 MatrixHeaderView::~MatrixHeaderView()
 {
+    delete m_remove_button;
 }
 
 void MatrixHeaderView::paintEvent(QPaintEvent *e)
@@ -55,7 +64,11 @@ void MatrixHeaderView::paintSection(QPainter* painter, const QRect& rect, int lo
     painter->save();
     painter->setBrush(fg);
     painter->setFont(font);
-    painter->drawText(rect, Qt::AlignVCenter | Qt::AlignLeft, text);
+    painter->drawText(QRect(rect.x()+40,rect.y(),rect.width()-40,rect.height()), Qt::AlignVCenter | Qt::AlignLeft, text);
+    
+    int h = m_view->horizontalHeaderSectionSize().height();
+    m_remove_button->render(painter->device(), QPoint(1, h*(logicalIndex)));
+    
     painter->restore();
 }
 
@@ -76,7 +89,7 @@ void MatrixHeaderView::mouseDoubleClickEvent(QMouseEvent* e)
     
     QLineEdit *editor = (QLineEdit*)itemDelegate()->createEditor(this, QStyleOptionViewItem(),((MatrixModel*)model())->createIndex(index,0));
     itemDelegate()->setEditorData(editor, ((MatrixModel*)model())->createIndex(index,0));
-    editor->move(QPoint(0, m_view->horizontalHeaderSectionSize().height() * index));
+    editor->move(QPoint(40, m_view->horizontalHeaderSectionSize().height() * index));
     editor->setFocus();
     editor->setStyleSheet(stylesheet);
     editor->resize(m_view->horizontalHeaderSectionSize());

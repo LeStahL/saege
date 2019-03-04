@@ -28,6 +28,7 @@ class MatrixView;
 #include <QWidget>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QPushButton>
 
 class MatrixHeaderView : public QHeaderView
 {
@@ -50,6 +51,7 @@ private:
     MatrixView *m_view;
     QLineEdit *m_editor;
     int m_index;
+    QPushButton *m_remove_button;
 };
 
 #endif
