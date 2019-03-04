@@ -44,6 +44,7 @@ public:
     bool removeColumns(int ncolumns);
     
     QString rowName(int row);
+    bool setRowName(int row, QString name);
     void *data(int row, int column);
     int value(int row, int column);
     bool setData(int row, int column, void *data);

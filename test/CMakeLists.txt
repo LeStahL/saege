@@ -37,6 +37,7 @@ set(MATRIX_MODEL_SRC
     ${PROJECT_SOURCE_DIR}/model/MatrixAddColumnCommand.cpp
     ${PROJECT_SOURCE_DIR}/model/MatrixRemoveRowCommand.cpp
     ${PROJECT_SOURCE_DIR}/model/MatrixRemoveColumnCommand.cpp
+    ${PROJECT_SOURCE_DIR}/model/MatrixChangeRowNameCommand.cpp
     ${PROJECT_SOURCE_DIR}/model/MatrixHeaderView.cpp
     ${PROJECT_SOURCE_DIR}/model/LineEditDelegate.cpp
     ${PROJECT_SOURCE_DIR}/tools/ColorProvider.cpp

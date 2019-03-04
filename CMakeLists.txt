@@ -48,6 +48,7 @@ set(SAEGE_SRC
     model/MatrixAddColumnCommand.cpp
     model/MatrixRemoveColumnCommand.cpp
     model/MatrixRemoveRowCommand.cpp
+    model/MatrixChangeRowNameCommand.cpp
     model/MatrixHeaderView.cpp
     model/LineEditDelegate.cpp
     tools/ColorProvider.cpp

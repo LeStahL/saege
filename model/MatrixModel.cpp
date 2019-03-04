@@ -122,7 +122,7 @@ bool MatrixModel::setHeaderData(int section, Qt::Orientation orientation, const 
     if(role == Qt::EditRole)
     {
         if(orientation == Qt::Horizontal) return false;
-        m_undo_stack->push(new MatrixChangeRowNameCommand(section, value, this));
+        m_undo_stack.push(new MatrixChangeRowNameCommand(section, value, this));
         return true;
     }
     return false;

@@ -180,6 +180,13 @@ QString Matrix::rowName(int row)
     return m_row_names[row];
 }
 
+bool Matrix::setRowName(int row, QString name)
+{
+    if(row < 0 || m_row_names.size() <= row) return false;
+    m_row_names[row] = name;
+    return true;
+}
+
 QString Matrix::toString()
 {
     QString ret;
