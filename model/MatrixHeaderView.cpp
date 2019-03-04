@@ -76,10 +76,13 @@ void MatrixHeaderView::mouseDoubleClickEvent(QMouseEvent* e)
     
     QLineEdit *editor = (QLineEdit*)itemDelegate()->createEditor(this, QStyleOptionViewItem(),((MatrixModel*)model())->createIndex(index,0));
     itemDelegate()->setEditorData(editor, ((MatrixModel*)model())->createIndex(index,0));
+    editor->move(QPoint(0, m_view->horizontalHeaderSectionSize().height() * index));
     editor->setFocus();
     editor->setStyleSheet(stylesheet);
     editor->resize(m_view->horizontalHeaderSectionSize());
     connect(editor, SIGNAL(editingFinished()), this, SLOT(finishEditing()));
+    connect(editor, SIGNAL(focusLost()), this, SLOT(finishEditing()));
+    connect(editor, SIGNAL(editingCancelled()), this, SLOT(cancelEditing()));
     m_editor = editor;
     editor->show();
     
@@ -89,5 +92,10 @@ void MatrixHeaderView::mouseDoubleClickEvent(QMouseEvent* e)
 void MatrixHeaderView::finishEditing()
 {
     itemDelegate()->setModelData(m_editor, model(), ((MatrixModel*)model())->createIndex(m_index,0));
+    delete m_editor;
+}
+
+void MatrixHeaderView::cancelEditing()
+{
     delete m_editor;
 }

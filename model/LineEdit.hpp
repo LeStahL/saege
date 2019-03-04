@@ -15,41 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef MATRIX_HEADER_VIEW_H
-#define MATRIX_HEADER_VIEW_H
+#ifndef LINE_EDIT_H
+#define LINE_EDIT_H
 
-class MatrixView;
-
-#include <QHeaderView>
-#include <QAbstractTableModel>
-#include <QPainter>
-#include <QPaintEvent>
-#include <QRect>
-#include <QWidget>
-#include <QMouseEvent>
+#include <QLineEdit>
+#include <QFocusEvent>
 #include <QKeyEvent>
 
-class MatrixHeaderView : public QHeaderView
+class LineEdit : public QLineEdit
 {
     Q_OBJECT
     
 public:
-    explicit MatrixHeaderView(Qt::Orientation orientation, QWidget *parent = nullptr);
-    virtual ~MatrixHeaderView();
+    LineEdit(QWidget *parent = 0);
+    virtual ~LineEdit();
     
-private slots:
-    void finishEditing();
-    void cancelEditing();
+signals:
+    void focusLost();
+    void editingCancelled();
     
 protected:
-    void paintEvent(QPaintEvent *e) override;
-    void paintSection(QPainter *painter, const QRect &rect, int logicalIndex) const;
-    void mouseDoubleClickEvent(QMouseEvent *e);
-    
-private:
-    MatrixView *m_view;
-    QLineEdit *m_editor;
-    int m_index;
+    void focusOutEvent(QFocusEvent *e);
+    void keyPressEvent(QKeyEvent *e);
 };
 
 #endif

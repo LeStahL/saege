@@ -51,6 +51,7 @@ set(SAEGE_SRC
     model/MatrixChangeRowNameCommand.cpp
     model/MatrixHeaderView.cpp
     model/LineEditDelegate.cpp
+    model/LineEdit.cpp
     tools/ColorProvider.cpp
     Saege.cpp
 )

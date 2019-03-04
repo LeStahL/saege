@@ -16,6 +16,7 @@
  */
 
 #include "LineEditDelegate.hpp"
+#include "LineEdit.hpp"
 
 #include <QDebug>
 
@@ -28,7 +29,7 @@ QWidget *LineEditDelegate::createEditor(QWidget *parent,
     const QStyleOptionViewItem &option,
     const QModelIndex &index) const
 {
-    QLineEdit *editor = new QLineEdit(parent);
+    QLineEdit *editor = (QLineEdit*) new LineEdit(parent);
     
     return editor;
 }
