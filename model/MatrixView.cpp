@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <QPalette>
 #include <QHeaderView>
+#include <QModelIndexList>
 #include <QLabel>
 
 MatrixView::MatrixView(QWidget *parent)
@@ -157,20 +158,35 @@ void MatrixView::update()
 
 void MatrixView::keyPressEvent(QKeyEvent* e)
 {
-//     qDebug() << "Key pressed:" << e->key();
-//     QTableView::keyPressEvent(e);
     if(e->matches(QKeySequence::Undo))
         ((MatrixModel*)model())->undo();
     if(e->matches(QKeySequence::Redo))
         ((MatrixModel*)model())->redo();
     
-//     if(e->key() == Qt::Space)
+    if(e->key() == Qt::Key_Space )
+    {
+        QModelIndexList selectionmodel = selectionModel()->selectedIndexes();
+        for(int i=0; i<selectionmodel.count(); ++i)
+        {
+            QVariant data = model()->data(selectionmodel.at(i), Qt::DisplayRole);
+            model()->setData(selectionmodel.at(i), QVariant(1));
+        }
+    }
+    else if(e->key() == Qt::Key_Delete)
+    {
+        QModelIndexList selectionmodel = selectionModel()->selectedIndexes();
+        for(int i=0; i<selectionmodel.count(); ++i)
+        {
+            QVariant data = model()->data(selectionmodel.at(i), Qt::DisplayRole);
+            model()->setData(selectionmodel.at(i), QVariant(0));
+        }
+    }
+    
     update();
 }
 
 void MatrixView::removeColumnSlot()
 {
-    qDebug() << model()->columnCount(QModelIndex());
     model()->removeColumns(model()->columnCount()-1, 1);
     update();
 }
