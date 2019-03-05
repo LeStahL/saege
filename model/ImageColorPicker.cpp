@@ -66,13 +66,8 @@ void ImageColorPicker::dropEvent(QDropEvent* e)
 
 void ImageColorPicker::imageChanged()
 {
-//     m_graphics_scene->clear();
-//     if(m_item != 0) delete m_item;
-//     m_item = new QGraphicsPixmapItem(QPixmap::fromImage(m_image));
     m_item->setPixmap(QPixmap::fromImage(m_image));
     m_item->update();
-//     m_graphics_scene->addItem(m_item);
-//     m_graphics_scene->addItem(m_cursor);
     moveSplitter();
 }
 
