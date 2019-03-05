@@ -27,13 +27,15 @@ ImageColorPicker::ImageColorPicker(QWidget *parent)
     : QWidget(parent)
     , m_ui(new Ui::ImageColorPicker)
     , m_graphics_scene(new QGraphicsScene())
-    , m_item(0)
+    , m_item(new QGraphicsPixmapItem)
     , m_cursor(new QGraphicsEllipseItem(0,0,20,20))
 {
     m_cursor->setBrush(QBrush(Qt::red, Qt::SolidPattern));
     m_ui->setupUi(this);
     setAcceptDrops(true);
     setMouseTracking(true);
+    m_graphics_scene->addItem(m_item);
+    m_graphics_scene->addItem(m_cursor);
     m_ui->graphicsView->setScene(m_graphics_scene);
 }
 
@@ -64,11 +66,13 @@ void ImageColorPicker::dropEvent(QDropEvent* e)
 
 void ImageColorPicker::imageChanged()
 {
-    m_graphics_scene->clear();
-    if(m_item != 0) delete m_item;
-    m_item = new QGraphicsPixmapItem(QPixmap::fromImage(m_image));
-    m_graphics_scene->addItem(m_item);
-    m_graphics_scene->addItem(m_cursor);
+//     m_graphics_scene->clear();
+//     if(m_item != 0) delete m_item;
+//     m_item = new QGraphicsPixmapItem(QPixmap::fromImage(m_image));
+    m_item->setPixmap(QPixmap::fromImage(m_image));
+    m_item->update();
+//     m_graphics_scene->addItem(m_item);
+//     m_graphics_scene->addItem(m_cursor);
     moveSplitter();
 }
 
