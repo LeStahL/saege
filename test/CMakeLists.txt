@@ -46,3 +46,12 @@ set(MATRIX_MODEL_SRC
 
 add_executable(MatrixModelTest ${MATRIX_MODEL_SRC}) 
 target_link_libraries(MatrixModelTest Qt5::Widgets Qt5::Gui)
+
+set(IMAGE_COLOR_PICKER_SRC
+    ImageColorPickerTest.cpp
+    ${PROJECT_SOURCE_DIR}/model/ImageColorPicker.ui
+    ${PROJECT_SOURCE_DIR}/model/ImageColorPicker.cpp
+)
+add_executable(ImageColorPickerTest ${IMAGE_COLOR_PICKER_SRC})
+target_link_libraries(ImageColorPickerTest Qt5::Widgets Qt5::Gui)
+
