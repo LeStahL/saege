@@ -87,7 +87,7 @@ void ImageColorPicker::mousePressEvent(QMouseEvent* e)
         m_ui->lineEdit->setText(QString::number((float)color.red()/255.));
         m_ui->lineEdit_2->setText(QString::number((float)color.green()/255.));
         m_ui->lineEdit_3->setText(QString::number((float)color.blue()/255.));
-        m_ui->lineEdit_4->setText(QString("vec3(%1,%2,%3)").arg((float)color.red()/255.,4).arg((float)color.green()/255.,4).arg((float)color.blue()/255.,4));
+        m_ui->lineEdit_4->setText(QString("vec3(%1,%2,%3)").arg((float)color.red()/255.,4,'f',2,' ').arg((float)color.green()/255.,4,'f',2,' ').arg((float)color.blue()/255.,4,'f',2,' '));
         m_ui->lineEdit_4->setFocus();
         m_ui->lineEdit_4->selectAll();
     }
