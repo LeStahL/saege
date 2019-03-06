@@ -32,7 +32,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <widget class="QGraphicsView" name="graphicsView"/>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
         <number>1</number>
@@ -180,6 +180,17 @@
        </item>
        <item>
         <widget class="QLineEdit" name="lineEdit_4">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_5">
          <property name="font">
           <font>
            <pointsize>14</pointsize>
